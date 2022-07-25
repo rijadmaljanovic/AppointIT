@@ -32,4 +32,10 @@
     <ProjectReference Include="..\AppointIT.Services\AppointIT.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="dataSeed.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -41,6 +41,7 @@ namespace AppointIT.Services.Migrations
                 name: "IX_CustomerServiceRecommend_ServiceId",
                 table: "CustomerServiceRecommend",
                 column: "ServiceId");
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

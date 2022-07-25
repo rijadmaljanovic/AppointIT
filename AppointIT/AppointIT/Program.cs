@@ -120,7 +120,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MyContext>();
     new SetupService().Init(dbContext);
-    //new SetupService().InsertData(dbContext);
+    new SetupService().InsertData(dbContext);
 }
 
 app.Run();
