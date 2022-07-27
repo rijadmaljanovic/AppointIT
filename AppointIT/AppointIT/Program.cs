@@ -15,11 +15,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
 builder.Services.AddControllers(x =>
 {
     x.Filters.Add<ErrorFilter>();
 });
+
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -50,17 +51,13 @@ var mappingConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new AppointITProfile());
 });
-
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
-
-
 
 builder.Services.AddDbContext<MyContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBaseUserService, BaseUserService>();
@@ -84,10 +81,8 @@ builder.Services.AddTransient<IMailService, SendGridMailService>();
 builder.Services.AddAuthentication("BasicAuthentication")
     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-
 //--------------------------------------------
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.

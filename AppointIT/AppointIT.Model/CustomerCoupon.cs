@@ -13,11 +13,11 @@ namespace AppointIT.Model
         public Coupon Coupon { get; set; }
         public bool IsUsed { get; set; }
         public int MyProperty { get; set; }
-        public string CouponTitle
+        public string Title
         {
             get { return Coupon?.Title; }
         }
-        public decimal? CouponValue
+        public decimal? Value
         {
             get { return Coupon?.Value; }
         }
