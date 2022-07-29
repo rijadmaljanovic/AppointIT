@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
-using AppointIT.Model;
 using static AppointIT.Services.TermCustomService;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Controllers
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
-using AppointIT.Model;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {

@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
         Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/beauty.png'),
+                  image: AssetImage('assets/ss.png'),
                   fit: BoxFit.fitWidth,
                   colorFilter:
                       ColorFilter.mode(Colors.black54, BlendMode.darken))),

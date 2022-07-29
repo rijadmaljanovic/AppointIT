@@ -1,5 +1,4 @@
-﻿
-using AppointIT.Model;
+﻿using AppointIT.Model.Models;
 using AppointIT.Model.Requests;
 
 namespace AppointIT.Services.Interfaces

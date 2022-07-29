@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Security
 {
@@ -28,7 +29,7 @@ namespace AppointIT.Security
                 }
             
             
-            Model.BaseUser user = null;
+            BaseUser user = null;
 
             try
             {

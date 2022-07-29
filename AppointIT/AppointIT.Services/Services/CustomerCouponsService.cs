@@ -10,13 +10,13 @@ using AppointIT.Model.Requests;
 
 namespace AppointIT.Services
 {
-    public class CustomerCouponsService : CrudService<Model.CustomerCoupon, Database.CustomerCoupon, CustomerCouponSearchObject, CustomerCouponInsertRequest, CustomerCouponInsertRequest>, ICustomerCouponsService
+    public class CustomerCouponsService : CrudService<Model.Models.CustomerCoupon, Database.CustomerCoupon, CustomerCouponSearchObject, CustomerCouponInsertRequest, CustomerCouponInsertRequest>, ICustomerCouponsService
     {
         public CustomerCouponsService(MyContext context, IMapper mapper) : base(context, mapper)
         {
 
         }
-        public override IEnumerable<Model.CustomerCoupon> Get(CustomerCouponSearchObject search = null)
+        public override IEnumerable<Model.Models.CustomerCoupon> Get(CustomerCouponSearchObject search = null)
         {
             var entity = _context.Set<Database.CustomerCoupon>().AsQueryable();
 
@@ -29,7 +29,7 @@ namespace AppointIT.Services
             entity = entity.Include("Coupon");
             var list = entity.ToList();
 
-            return _mapper.Map<List<Model.CustomerCoupon>>(list);
+            return _mapper.Map<List<Model.Models.CustomerCoupon>>(list);
         }
 
     }

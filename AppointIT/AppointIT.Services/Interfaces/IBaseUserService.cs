@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppointIT.Model.Models;
 using AppointIT.Model.Requests;
 
 namespace AppointIT.Services.Interfaces
 {
     public interface IBaseUserService
     {
-        Task<Model.BaseUser> Login(string username, string password);
-        Model.BaseUser GetById(int id);
-        Model.BaseUser Insert(BaseUserInsertRequest request);
-        IEnumerable<Model.BaseUser> GetAll();
-        Model.BaseUser Update(int Id, BaseUserInsertRequest request);
-        Model.BaseUser Register(BaseUserInsertRequest request);
+        Task<BaseUser> Login(string username, string password);
+        BaseUser GetById(int id);
+        BaseUser Insert(BaseUserInsertRequest request);
+        IEnumerable<BaseUser> GetAll();
+        BaseUser Update(int Id, BaseUserInsertRequest request);
+        BaseUser Register(BaseUserInsertRequest request);
 
     }
 }

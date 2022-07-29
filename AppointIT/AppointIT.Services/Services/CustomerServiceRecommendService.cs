@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
-using AppointIT.Model;
 
 namespace AppointIT.Services
 {
@@ -20,14 +19,14 @@ namespace AppointIT.Services
             this._context = _context;
             this._mapper = _mapper;
         }
-        List<Model.CustomerServiceRecommend> ICustomerServiceRecommendService.Get(int CustomerId)
+        List<Model.Models.CustomerServiceRecommend> ICustomerServiceRecommendService.Get(int CustomerId)
         {
             var entity = _context.Set<Database.CustomerServiceRecommend>().AsQueryable();
 
             entity = entity.Where(x => x.CustomerId == CustomerId);
 
-            List<Model.CustomerServiceRecommend> list = entity.Include(x=>x.Service)
-            .Select(x => new Model.CustomerServiceRecommend
+            List<Model.Models.CustomerServiceRecommend> list = entity.Include(x=>x.Service)
+            .Select(x => new Model.Models.CustomerServiceRecommend
             {
                 Id=x.Id,
                 CustomerId=x.CustomerId,

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AppointIT.Model.Models;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,32 +11,32 @@ namespace AppointIT.Services.Mapping
     {
         public AppointITProfile()
         {
-            CreateMap<Database.Category, Model.Category>();
-            CreateMap<Model.Category, Database.Category>();
+            CreateMap<Database.Category, Category>();
+            CreateMap<Category, Database.Category>();
 
-            CreateMap<Database.Service, Model.Service>();
+            CreateMap<Database.Service, Service>();
             CreateMap<Model.Requests.ServiceInsertRequest, Database.Service>();
 
-            CreateMap<Database.BaseUser, Model.BaseUser>().ReverseMap();
+            CreateMap<Database.BaseUser, BaseUser>().ReverseMap();
             CreateMap<Model.Requests.BaseUserInsertRequest, Database.BaseUser>();
-            CreateMap<Database.Role, Model.Role>();
-            CreateMap<Database.BaseUserRole, Model.BaseUserRole>();
-            CreateMap<Database.City, Model.City>();
-            CreateMap<Database.Salon, Model.Salon>();
+            CreateMap<Database.Role, Role>();
+            CreateMap<Database.BaseUserRole, BaseUserRole>();
+            CreateMap<Database.City, City>();
+            CreateMap<Database.Salon, Salon>();
             CreateMap<Model.Requests.SalonInsertRequest, Database.Salon>();
             CreateMap<Model.Requests.EmployeeInsertRequest, Database.Employee>();
-            CreateMap<Database.Employee, Model.Employee>();
-            CreateMap<Database.SalonServices, Model.SalonServices>().ReverseMap();
-            CreateMap<Model.Term, Database.Term>().ReverseMap();
+            CreateMap<Database.Employee, Employee>();
+            CreateMap<Database.SalonServices, SalonServices>().ReverseMap();
+            CreateMap<Term, Database.Term>().ReverseMap();
             CreateMap<Model.Requests.TermInsertRequest, Database.Term>().ReverseMap();
-            CreateMap<Model.News, Database.News>().ReverseMap();
+            CreateMap<News, Database.News>().ReverseMap();
             CreateMap<Model.Requests.NewsInsertRequest, Database.News>();
             CreateMap<Model.Requests.CouponInsertRequest, Database.Coupon>();
             CreateMap<Model.Requests.CustomerCouponInsertRequest, Database.CustomerCoupon>();
 
-            CreateMap<Database.Coupon, Model.Coupon>();
-            CreateMap<Database.CustomerCoupon, Model.CustomerCoupon>();
-            CreateMap<Database.Customer, Model.Customer>();
+            CreateMap<Database.Coupon, Coupon>();
+            CreateMap<Database.CustomerCoupon, CustomerCoupon>();
+            CreateMap<Database.Customer, Customer>();
 
         }
     }

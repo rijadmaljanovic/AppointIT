@@ -6,11 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Requests;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Controllers
 {
     [Authorize]
-    public class SalonController : CrudController<Model.Salon, Model.SalonSearchObject, SalonInsertRequest, SalonInsertRequest>
+    public class SalonController : CrudController<Salon, SalonSearchObject, SalonInsertRequest, SalonInsertRequest>
     {
         public SalonController(ISalonService _service) : base(_service) { }
     }

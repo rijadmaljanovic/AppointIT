@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppointIT.Model;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services.Interfaces
 {
-    public interface IEmployeeService:ICrudService<Model.Employee, EmployeeSearchObject, Model.Requests.EmployeeInsertRequest, Model.Requests.EmployeeInsertRequest>
+    public interface IEmployeeService:ICrudService<Employee, EmployeeSearchObject, Model.Requests.EmployeeInsertRequest, Model.Requests.EmployeeInsertRequest>
     {
     }
 }

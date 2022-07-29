@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Requests;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Controllers
 {
@@ -19,31 +20,31 @@ namespace AppointIT.Controllers
             this._service = _service;
         }
         [HttpGet("{id}")]
-        public Model.BaseUser GetById(int id)
+        public BaseUser GetById(int id)
         {
             return _service.GetById(id);
         }
         [HttpPost]
         [Authorize]
-        public Model.BaseUser Insert(BaseUserInsertRequest users)
+        public BaseUser Insert(BaseUserInsertRequest users)
         {
             return _service.Insert(users);
         }
         [HttpGet]
         [Authorize]
-        public IEnumerable<Model.BaseUser> Get()
+        public IEnumerable<BaseUser> Get()
         {
             return _service.GetAll();
         }
         [HttpPut("{id}")]
         [Authorize]
 
-        public Model.BaseUser Update(int Id, BaseUserInsertRequest request)
+        public BaseUser Update(int Id, BaseUserInsertRequest request)
         {
             return _service.Update(Id, request);
         }
         [HttpPost("Register")]
-        public Model.BaseUser Register(BaseUserInsertRequest request)
+        public BaseUser Register(BaseUserInsertRequest request)
         {
             return _service.Register(request);
         }

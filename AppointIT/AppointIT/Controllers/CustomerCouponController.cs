@@ -6,11 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Requests;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Controllers
 {
     [Authorize]
-    public class CustomerCouponController : CrudController<Model.CustomerCoupon, CustomerCouponSearchObject, CustomerCouponInsertRequest, CustomerCouponInsertRequest>
+    public class CustomerCouponController : CrudController<CustomerCoupon, CustomerCouponSearchObject, CustomerCouponInsertRequest, CustomerCouponInsertRequest>
     {
         public CustomerCouponController(ICustomerCouponsService _service) : base(_service)
         {

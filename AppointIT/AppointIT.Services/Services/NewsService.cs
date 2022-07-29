@@ -10,12 +10,12 @@ using AppointIT.Model.Requests;
 
 namespace AppointIT.Services
 {
-    public class NewsService : CrudService<Model.News, Database.News, NewsSearchObject, NewsInsertRequest, NewsInsertRequest>,INewsService
+    public class NewsService : CrudService<Model.Models.News, Database.News, NewsSearchObject, NewsInsertRequest, NewsInsertRequest>,INewsService
     {
         public NewsService(MyContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public override IEnumerable<Model.News> Get(NewsSearchObject search)
+        public override IEnumerable<Model.Models.News> Get(NewsSearchObject search)
         {
             var entity = _context.Set<Database.News>().AsQueryable();
 
@@ -31,7 +31,7 @@ namespace AppointIT.Services
 
             var list = entity.ToList();
 
-            return _mapper.Map<List<Model.News>>(list);
+            return _mapper.Map<List<Model.Models.News>>(list);
         }
     }
 }

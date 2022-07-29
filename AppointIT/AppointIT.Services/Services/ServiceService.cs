@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Requests;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
-    public class ServiceService : CrudService<Model.Service, Database.Service, Model.ServiceSearchObject, ServiceInsertRequest, ServiceInsertRequest>, IServiceService
+    public class ServiceService : CrudService<Model.Models.Service, Database.Service, ServiceSearchObject, ServiceInsertRequest, ServiceInsertRequest>, IServiceService
     {
         public ServiceService(MyContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public override IEnumerable<Model.Service> Get(Model.ServiceSearchObject search)
+        public override IEnumerable<Model.Models.Service> Get(ServiceSearchObject search)
         {
             if (search?.SalonId != null )
                 return GetDataForReport(search?.SalonId);
@@ -36,9 +37,9 @@ namespace AppointIT.Services
 
             var list = entity.ToList();
 
-            return _mapper.Map<List<Model.Service>>(list);
+            return _mapper.Map<List<Model.Models.Service>>(list);
         }
-        private List<Model.Service> GetDataForReport(int? SalonId)
+        private List<Model.Models.Service> GetDataForReport(int? SalonId)
         {
 
             var query = from t in _context.Terms
@@ -48,7 +49,7 @@ namespace AppointIT.Services
                         group new { s } by new { s.Name, s.Price, s.Duration, s.Id } into g
                         select new { Name = g.Key.Name, Price = g.Key.Price, Duration = g.Key.Duration, Count = g.Count(),Id=g.Key.Id };
 
-            List<Model.Service >list = query.OrderByDescending(x => x.Count).Select(x => new Model.Service{ Id = x.Id, Name = x.Name, Duration = x.Duration, Price = x.Price }).ToList();
+            List<Model.Models.Service >list = query.OrderByDescending(x => x.Count).Select(x => new Model.Models.Service { Id = x.Id, Name = x.Name, Duration = x.Duration, Price = x.Price }).ToList();
 
             return list;
         }

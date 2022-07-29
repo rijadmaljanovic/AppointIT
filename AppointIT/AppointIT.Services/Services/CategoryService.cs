@@ -8,7 +8,7 @@ using AppointIT.Services.Interfaces;
 
 namespace AppointIT.Services
 {
-    public class CategoryService : CrudService<Model.Category, Database.Category, Model.Category,Model.Category,object>, ICategoryService
+    public class CategoryService : CrudService<Model.Models.Category, Database.Category, Model.Models.Category,Model.Models.Category,object>, ICategoryService
     {
         public CategoryService(MyContext context, IMapper mapper) : base(context, mapper)
         {

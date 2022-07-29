@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Controllers
 {
@@ -19,7 +20,7 @@ namespace AppointIT.Controllers
             this.service = service;
         }
         [HttpGet("{CustomerId}")]
-        public List<Model.CustomerServiceRecommend> Get(int CustomerId) {
+        public List<CustomerServiceRecommend> Get(int CustomerId) {
             return service.Get(CustomerId);
         }
 

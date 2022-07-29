@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppointIT.Model;
+using AppointIT.Model.Models;
 using AppointIT.Model.Requests;
 
 

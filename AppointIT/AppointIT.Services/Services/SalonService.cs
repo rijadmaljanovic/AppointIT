@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
-using AppointIT.Model;
 using Microsoft.EntityFrameworkCore;
 
 using AppointIT.Model.Requests;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
-    public class SalonService : CrudService<Model.Salon, Database.Salon, SalonSearchObject, SalonInsertRequest, SalonInsertRequest>, ISalonService
+    public class SalonService : CrudService<Model.Models.Salon, Database.Salon, SalonSearchObject, SalonInsertRequest, SalonInsertRequest>, ISalonService
     {
         public SalonService(MyContext context, IMapper mapper) : base(context, mapper)
         {
 
         }
-        public override  IEnumerable<Model.Salon> Get(SalonSearchObject search = null)
+        public override  IEnumerable<Model.Models.Salon> Get(SalonSearchObject search = null)
         {
             var entity = _context.Set<Database.Salon>().AsQueryable();
 
@@ -33,7 +33,7 @@ namespace AppointIT.Services
 
             var list = entity.ToList();
 
-            return _mapper.Map<List<Model.Salon>>(list);
+            return _mapper.Map<List<Model.Models.Salon>>(list);
         }
 
     }

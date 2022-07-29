@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="NewsForms\NewsListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ServiceForms\ServiceListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TermForms\EmployeeTerms.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="Report\customerReport.rdlc" />
+    <EmbeddedResource Include="Report\serviceReport.rdlc" />
+    <None Update="Report\customerDataSet.xsc">
+      <DependentUpon>customerDataSet.xsd</DependentUpon>
+    </None>
+    <None Update="Report\customerDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>customerDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Report\customerDataSet.xss">
+      <DependentUpon>customerDataSet.xsd</DependentUpon>
+    </None>
+    <None Update="Report\serviceDataSet.xsc">
+      <DependentUpon>serviceDataSet.xsd</DependentUpon>
+    </None>
+    <None Update="Report\serviceDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>serviceDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Report\serviceDataSet.xss">
+      <DependentUpon>serviceDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppointIT.Model\AppointIT.Model.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="3.0.6" />
+    <PackageReference Include="Flurl.Http" Version="3.2.4" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.17" />
+    <PackageReference Include="Syncfusion.Schedule.Windows" Version="19.2.0.56" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="CurrentUser\TermForms\EmployeeTerms.cs" />
+    <Compile Remove="CurrentUser\TermForms\EmployeeTerms.Designer.cs" />
+    <Compile Remove="CurrentUser\TermForms\frmAddTerm.cs" />
+    <Compile Remove="CurrentUser\TermForms\frmAddTerm.Designer.cs" />
+    <Compile Remove="CurrentUser\TermForms\frmTermHome.cs" />
+    <Compile Remove="CurrentUser\TermForms\frmTermHome.Designer.cs" />
+    <EmbeddedResource Remove="CurrentUser\TermForms\EmployeeTerms.resx" />
+    <EmbeddedResource Remove="CurrentUser\TermForms\frmAddTerm.resx" />
+    <EmbeddedResource Remove="CurrentUser\TermForms\frmTermHome.resx" />
+  </ItemGroup>
+</Project>

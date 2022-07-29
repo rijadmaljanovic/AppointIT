@@ -11,6 +11,7 @@ using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Enumerations;
 using AppointIT.Model.Requests;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
@@ -26,13 +27,13 @@ namespace AppointIT.Services
             this._mapper = _mapper;
             this._mailService = _mailService;
         }
-        public Model.BaseUser GetById(int id)
+        public Model.Models.BaseUser GetById(int id)
         {
             var entity = _context.BaseUsers.Find(id);
 
-            return _mapper.Map<Model.BaseUser>(entity);
+            return _mapper.Map<Model.Models.BaseUser>(entity);
         }
-        public Model.BaseUser Insert(BaseUserInsertRequest request/*, int userRole = ((int)Enumerations.UserRole.Customer)*/)
+        public Model.Models.BaseUser Insert(BaseUserInsertRequest request/*, int userRole = ((int)Enumerations.UserRole.Customer)*/)
         {
             var entity = _mapper.Map<Database.BaseUser>(request);
             _context.Add(entity);
@@ -68,15 +69,15 @@ namespace AppointIT.Services
                 //    request.Password + "</strong>" +
                 //    "<p> New login to your account at " + DateTime.Now + "</p>");
             }
-            return _mapper.Map<Model.BaseUser>(entity);
+            return _mapper.Map<Model.Models.BaseUser>(entity);
         }
-        public Model.BaseUser Update(int Id, BaseUserInsertRequest request)
+        public Model.Models.BaseUser Update(int Id, BaseUserInsertRequest request)
         {
-            var set = _context.Set<BaseUser>();
+            var set = _context.Set<AppointIT.Services.Database.BaseUser>();
             var entity = set.Find(Id);
             _mapper.Map(request, entity);
             _context.SaveChanges();
-            return _mapper.Map<Model.BaseUser>(entity);
+            return _mapper.Map<Model.Models.BaseUser>(entity);
         }
         public static string GenerateSalt()
         {
@@ -97,7 +98,7 @@ namespace AppointIT.Services
             byte[] inArray = algorithm.ComputeHash(dst);
             return Convert.ToBase64String(inArray);
         }
-        public async Task<Model.BaseUser> Login(string email, string password)
+        public async Task<Model.Models.BaseUser> Login(string email, string password)
         {
             try
             {
@@ -114,7 +115,7 @@ namespace AppointIT.Services
                     throw new UserException("Pogrešan username ili password");
                 }
 
-                return _mapper.Map<Model.BaseUser>(entity);
+                return _mapper.Map<Model.Models.BaseUser>(entity);
 
             }
             catch (Exception ex)
@@ -124,14 +125,14 @@ namespace AppointIT.Services
         }
 
 
-        public IEnumerable<Model.BaseUser> GetAll()
+        public IEnumerable<Model.Models.BaseUser> GetAll()
         {
             var query = _context.BaseUsers.AsQueryable();
 
             var entities = query.ToList();
-            return _mapper.Map<IEnumerable<Model.BaseUser>>(entities);
+            return _mapper.Map<IEnumerable<Model.Models.BaseUser>>(entities);
         }
-        public Model.BaseUser Register(BaseUserInsertRequest request)
+        public Model.Models.BaseUser Register(BaseUserInsertRequest request)
         {
             var entity = _mapper.Map<Database.BaseUser>(request);
             _context.Add(entity);
@@ -147,7 +148,7 @@ namespace AppointIT.Services
 
             _context.SaveChanges();
 
-            _context.Customers.Add(new Customer { Id = entity.Id });
+            _context.Customers.Add(new AppointIT.Services.Database.Customer { Id = entity.Id });
 
             Database.BaseUserRole baseUserRole = new Database.BaseUserRole();
             baseUserRole.BaseUserId = entity.Id;
@@ -157,7 +158,7 @@ namespace AppointIT.Services
 
             _context.SaveChanges();
 
-            return _mapper.Map<Model.BaseUser>(entity);
+            return _mapper.Map<Model.Models.BaseUser>(entity);
         }
     }
 }

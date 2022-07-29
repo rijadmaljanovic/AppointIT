@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AutoMapper;
 using AppointIT.Services.Interfaces;
-using AppointIT.Model;
 using AppointIT.Model.Requests;
 using Microsoft.EntityFrameworkCore;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
-    public class EmployeeService:CrudService<Model.Employee,Database.Employee,EmployeeSearchObject,EmployeeInsertRequest, EmployeeInsertRequest>,IEmployeeService
+    public class EmployeeService:CrudService<Model.Models.Employee,Database.Employee,EmployeeSearchObject,EmployeeInsertRequest, EmployeeInsertRequest>,IEmployeeService
     {
         public EmployeeService(MyContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public override IEnumerable<Model.Employee> Get(EmployeeSearchObject search = null)
+        public override IEnumerable<Model.Models.Employee> Get(EmployeeSearchObject search = null)
         {
             var entity = _context.Set<Database.Employee>().AsQueryable();
 
@@ -33,7 +33,7 @@ namespace AppointIT.Services
 
             var list = entity.ToList();
 
-            return _mapper.Map<List<Model.Employee>>(list);
+            return _mapper.Map<List<Model.Models.Employee>>(list);
         }
     }
 }

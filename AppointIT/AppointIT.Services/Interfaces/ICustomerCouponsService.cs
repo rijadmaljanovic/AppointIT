@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppointIT.Model.Models;
 using AppointIT.Model.Requests;
 
 namespace AppointIT.Services.Interfaces
 {
-    public interface ICustomerCouponsService: ICrudService<Model.CustomerCoupon, CustomerCouponSearchObject, CustomerCouponInsertRequest, CustomerCouponInsertRequest>
+    public interface ICustomerCouponsService: ICrudService<CustomerCoupon, CustomerCouponSearchObject, CustomerCouponInsertRequest, CustomerCouponInsertRequest>
     {
     }
 }

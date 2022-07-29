@@ -8,14 +8,15 @@ using AppointIT.Model.Requests;
 using AppointIT.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
-    public class TermService: CrudService<Model.Term, Database.Term, Model.TermSearchObject, TermInsertRequest, TermInsertRequest>, ITermService
+    public class TermService: CrudService<Model.Models.Term, Database.Term, TermSearchObject, TermInsertRequest, TermInsertRequest>, ITermService
     {
         public TermService(MyContext context, IMapper mapper) : base(context, mapper) { }
 
-        public override IEnumerable<Model.Term> Get(Model.TermSearchObject search)
+        public override IEnumerable<Model.Models.Term> Get(TermSearchObject search)
         {
             var entity = _context.Set<Database.Term>().AsQueryable();
 
@@ -40,7 +41,7 @@ namespace AppointIT.Services
                 entity = entity.Where(x => x.Reserved == false);
 
             var list = entity.OrderBy(x => x.StartTime).ToList();
-            return _mapper.Map<List<Model.Term>>(list);
+            return _mapper.Map<List<Model.Models.Term>>(list);
         }
 
 

@@ -6,15 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
-    public class SalonServicesService : CrudService<Model.SalonServices, Database.SalonServices, Model.SalonServicesSearchObject, Model.SalonServices,object>, ISalonServicesService
+    public class SalonServicesService : CrudService<Model.Models.SalonServices, Database.SalonServices, SalonServicesSearchObject, Model.Models.SalonServices,object>, ISalonServicesService
     {
         public SalonServicesService(MyContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public override IEnumerable<Model.SalonServices> Get(Model.SalonServicesSearchObject search)
+        public override IEnumerable<Model.Models.SalonServices> Get(SalonServicesSearchObject search)
         {
             var entity = _context.Set<Database.SalonServices>().AsQueryable();
 
@@ -29,7 +30,7 @@ namespace AppointIT.Services
             }
             var list = entity.ToList();
 
-            return _mapper.Map<IEnumerable<Model.SalonServices>>(list);
+            return _mapper.Map<IEnumerable<Model.Models.SalonServices>>(list);
         }
     }
 }

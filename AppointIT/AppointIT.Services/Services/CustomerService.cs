@@ -6,15 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
+using AppointIT.Model.Models;
 
 namespace AppointIT.Services
 {
-    public class CustomerService : CrudService<Model.Customer, Database.Customer, Model.CustomerSearchObject, object, object>, ICustomerService
+    public class CustomerService : CrudService<Model.Models.Customer, Database.Customer, CustomerSearchObject, object, object>, ICustomerService
     {
         public CustomerService(MyContext context, IMapper mapper) : base(context, mapper)
         {
         }
-        public override IEnumerable<Model.Customer> Get(Model.CustomerSearchObject search)
+        public override IEnumerable<Model.Models.Customer> Get(CustomerSearchObject search)
         {
             if (search!=null && search.ReportData)
                 return GetDataForReport(search);
@@ -27,9 +28,9 @@ namespace AppointIT.Services
 
              var list = entity.ToList();
 
-            return _mapper.Map<List<Model.Customer>>(list);
+            return _mapper.Map<List<Model.Models.Customer>>(list);
         }
-        private List<Model.Customer> GetDataForReport(Model.CustomerSearchObject search)
+        private List<Model.Models.Customer> GetDataForReport(CustomerSearchObject search)
         {
             var query = from t in _context.Terms
                         join c in _context.Customers on t.CustomerId equals c.Id
@@ -39,7 +40,7 @@ namespace AppointIT.Services
                         group new { bu } by new { bu.FirstName,bu.LastName,bu.Id,bu.PhoneNumber} into g
                         select new{ FirstName = g.Key.FirstName, LastName = g.Key.LastName, Count = g.Count(), Id = g.Key.Id,Phone=g.Key.PhoneNumber };
 
-            List<Model.Customer> list = query.OrderByDescending(x => x.Count).Select(x => new Model.Customer { Id = x.Id, BaseUser = new Model.BaseUser { FirstName=x.FirstName,LastName=x.LastName,Id=x.Id,PhoneNumber=x.Phone}}).Take(5).ToList();
+            List<Model.Models.Customer> list = query.OrderByDescending(x => x.Count).Select(x => new Model.Models.Customer { Id = x.Id, BaseUser = new Model.Models.BaseUser { FirstName=x.FirstName,LastName=x.LastName,Id=x.Id,PhoneNumber=x.Phone}}).Take(5).ToList();
 
             return list;
         }
