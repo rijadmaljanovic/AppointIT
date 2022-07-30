@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AppointIT.WinUI.helper;
+using AppointIT.WinUI.Helper;
 using AppointIT.Model.Models;
+using AppointIT.WinUI.Service;
 
 namespace AppointIT.WinUI.Report
 {
@@ -77,7 +78,7 @@ namespace AppointIT.WinUI.Report
             await LoadSalons();
         }
 
-        private async Task<List<Service>> LoadData()
+        private async Task<List<AppointIT.Model.Models.Service>> LoadData()
         {
             if (int.TryParse(cmbSalon.SelectedValue.ToString(), out int SalonId))
             {
@@ -87,7 +88,7 @@ namespace AppointIT.WinUI.Report
                     {
                         SalonId = SalonId,
                     };
-                    var result = await _service.GetAll<List<Service>>(search);
+                    var result = await _service.GetAll<List<AppointIT.Model.Models.Service>>(search);
                     return result;
                 }
             }
@@ -98,5 +99,7 @@ namespace AppointIT.WinUI.Report
             }
             return null;
         }
+
+       
     }
 }

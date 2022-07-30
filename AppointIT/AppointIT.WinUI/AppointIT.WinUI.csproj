@@ -7,17 +7,26 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="NewsForms\NewsListItem.cs">
+    <Compile Update="Forms\NewsForms\NewsListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ServiceForms\ServiceListItem.cs">
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\ServiceForms\ServiceListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="TermForms\EmployeeTerms.cs">
+    <Compile Update="Forms\TermForms\EmployeeTerms.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <EmbeddedResource Include="Report\customerReport.rdlc" />
     <EmbeddedResource Include="Report\serviceReport.rdlc" />
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Report\customerDataSet.xsc">
       <DependentUpon>customerDataSet.xsd</DependentUpon>
     </None>

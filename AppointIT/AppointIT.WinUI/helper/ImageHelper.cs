@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppointIT.WinUI.helper
+namespace AppointIT.WinUI.Helper
 {
     public class ImageHelper
     {

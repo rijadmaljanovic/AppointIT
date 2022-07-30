@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace AppointIT.WinUI.helper
+namespace AppointIT.WinUI.Helper
 {
     public class PasswordGenerator
     {

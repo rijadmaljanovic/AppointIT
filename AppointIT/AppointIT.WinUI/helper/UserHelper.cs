@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AppointIT.Model.Enumerations;
 using AppointIT.Model.Models;
 
-namespace AppointIT.WinUI.helper
+namespace AppointIT.WinUI.Helper
 {
     public static class UserHelper
     {

@@ -48,13 +48,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.70833in</Width>
+                  <Width>1.45833in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.33333in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.33333in</Width>
+                  <Width>1.76042in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -287,9 +287,9 @@
             </TablixRowHierarchy>
             <DataSetName>dataSet</DataSetName>
             <Top>1.08in</Top>
-            <Left>0.39667in</Left>
+            <Left>0.69876in</Left>
             <Height>0.5in</Height>
-            <Width>4.375in</Width>
+            <Width>4.55208in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -303,9 +303,9 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Izvještaj o najtraženijim uslugama</Value>
+                    <Value>Izvjestaj o najtrazenijim uslugama</Value>
                     <Style>
-                      <FontSize>14pt</FontSize>
+                      <FontSize>18pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -317,9 +317,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.31333in</Top>
-            <Left>0.67167in</Left>
-            <Height>0.35in</Height>
-            <Width>3.9in</Width>
+            <Left>0.69876in</Left>
+            <Height>0.44375in</Height>
+            <Width>4.72291in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -332,10 +332,10 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>2in</Height>
+        <Height>2.71875in</Height>
         <Style />
       </Body>
-      <Width>5.20833in</Width>
+      <Width>6.105in</Width>
       <Page>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>

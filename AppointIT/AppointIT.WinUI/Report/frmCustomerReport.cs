@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AppointIT.WinUI.helper;
+using AppointIT.WinUI.Helper;
 using AppointIT.Model.Models;
+using AppointIT.WinUI.Service;
 
 namespace AppointIT.WinUI.Report
 {

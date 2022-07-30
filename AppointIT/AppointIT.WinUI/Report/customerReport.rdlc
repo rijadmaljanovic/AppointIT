@@ -9,9 +9,9 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Izbještaj o najvjernijim klijentima </Value>
+                <Value>Izvjestaj o najvjernijim klijentima </Value>
                 <Style>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>18pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -21,9 +21,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>0.305in</Top>
-        <Left>1.28333in</Left>
-        <Height>0.25in</Height>
-        <Width>2.855in</Width>
+        <Left>0.79375in</Left>
+        <Height>0.35417in</Height>
+        <Width>4.0425in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -38,13 +38,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.33042in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.48209in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.70833in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -259,9 +259,9 @@
         </TablixRowHierarchy>
         <DataSetName>dataSet</DataSetName>
         <Top>0.955in</Top>
-        <Left>1.29667in</Left>
+        <Left>0.68958in</Left>
         <Height>0.5in</Height>
-        <Width>3in</Width>
+        <Width>4.52084in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -270,10 +270,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2in</Height>
+    <Height>3.39583in</Height>
     <Style />
   </Body>
-  <Width>6.5in</Width>
+  <Width>6.01041in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>

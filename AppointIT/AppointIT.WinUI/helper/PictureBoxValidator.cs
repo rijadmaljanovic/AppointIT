@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AppointIT.WinUI.helper
+namespace AppointIT.WinUI.Helper
 {
     public class PictureBoxValidator
     {
