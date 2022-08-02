@@ -29,7 +29,7 @@ class _RecommendState extends State<Recommend> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Preporučeni proizvodi'),
-        backgroundColor: Colors.pink[200],
+        backgroundColor: Color.fromARGB(255, 89, 54, 244),
       ),
       body: LoadData(),
     );
@@ -61,7 +61,7 @@ Widget Kartica(MdlRecommend recommend) {
   return Card(
     child: ListTile(
       leading: Icon(Icons.check),
-      tileColor: Colors.pink[200],
+      tileColor: Color.fromARGB(255, 89, 183, 238),
       title: Text(
         recommend.serviceName,
         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),

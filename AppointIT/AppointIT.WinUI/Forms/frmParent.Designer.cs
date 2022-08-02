@@ -78,7 +78,7 @@ namespace AppointIT.WinUI
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(-3, 517);
+            this.button3.Location = new System.Drawing.Point(-5, 460);
             this.button3.Name = "button3";
             this.button3.Padding = new System.Windows.Forms.Padding(18, 0, 0, 0);
             this.button3.Size = new System.Drawing.Size(258, 63);
@@ -96,7 +96,7 @@ namespace AppointIT.WinUI
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(-9, 458);
+            this.button2.Location = new System.Drawing.Point(-3, 529);
             this.button2.Name = "button2";
             this.button2.Padding = new System.Windows.Forms.Padding(18, 0, 0, 0);
             this.button2.Size = new System.Drawing.Size(258, 63);
@@ -114,7 +114,7 @@ namespace AppointIT.WinUI
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(-5, 390);
+            this.button1.Location = new System.Drawing.Point(-2, 331);
             this.button1.Name = "button1";
             this.button1.Padding = new System.Windows.Forms.Padding(18, 0, 0, 0);
             this.button1.Size = new System.Drawing.Size(258, 63);
@@ -132,7 +132,7 @@ namespace AppointIT.WinUI
             this.btnNews.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnNews.Image = ((System.Drawing.Image)(resources.GetObject("btnNews.Image")));
             this.btnNews.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNews.Location = new System.Drawing.Point(-3, 326);
+            this.btnNews.Location = new System.Drawing.Point(-3, 400);
             this.btnNews.Name = "btnNews";
             this.btnNews.Padding = new System.Windows.Forms.Padding(18, 0, 0, 0);
             this.btnNews.Size = new System.Drawing.Size(258, 63);

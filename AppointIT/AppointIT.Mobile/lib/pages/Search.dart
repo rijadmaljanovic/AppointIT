@@ -78,9 +78,9 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Search'),
+          title: Text('Pretraga'),
           elevation: 0.0,
-          backgroundColor: Colors.pink[200],
+          backgroundColor: Color.fromARGB(255, 89, 54, 244),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -137,7 +137,7 @@ class _SearchState extends State<Search> {
               height: 50,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.pink[200]),
+                  color: Color.fromARGB(255, 89, 54, 244)),
               child: Center(
                 child: Text(
                   "Preporučeni proizvodi",

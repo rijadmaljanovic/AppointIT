@@ -14,7 +14,7 @@ class _MojiTerminiState extends State<MojiTermini> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Moji termini"),
-        backgroundColor: Colors.pink[200],
+        backgroundColor: Color.fromARGB(255, 89, 54, 244),
       ),
       body: loadData(),
     );
@@ -58,7 +58,7 @@ Widget kartica(MdlTerm term) {
   return Card(
     child: ListTile(
       leading: Icon(Icons.check),
-      tileColor: Colors.pinkAccent[100],
+      tileColor: Color.fromARGB(255, 114, 216, 241),
       title: Text(
         term.start + " - " + term.end,
         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),

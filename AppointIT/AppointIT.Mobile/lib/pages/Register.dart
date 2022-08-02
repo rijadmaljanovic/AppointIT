@@ -129,7 +129,7 @@ class Register extends StatelessWidget {
                         width: size.width * 0.8,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: Colors.pink[200],
+                          color: Color.fromARGB(255, 89, 54, 244),
                         ),
                         child: TextButton(
                           onPressed: () async {
@@ -173,7 +173,7 @@ class Register extends StatelessWidget {
                             child: Text(
                               'Login',
                               style: kBodyText.copyWith(
-                                  color: Colors.pink[200],
+                                  color: Color.fromARGB(255, 89, 54, 244),
                                   fontWeight: FontWeight.bold),
                             ),
                           ),

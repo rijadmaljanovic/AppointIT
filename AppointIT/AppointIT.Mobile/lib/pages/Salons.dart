@@ -33,7 +33,7 @@ class _SalonState extends State<Salon> {
     return Scaffold(
       appBar: AppBar(
           title: Text('Salon'),
-          backgroundColor: Colors.pink[200],
+          backgroundColor: Color.fromARGB(255, 89, 54, 244),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {

@@ -239,7 +239,7 @@ class _RezervacijaState extends State<Rezervacija> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Rezervacija'),
-        backgroundColor: Colors.pink[200],
+        backgroundColor: Color.fromARGB(255, 89, 54, 244),
       ),
       body: Column(children: [
         Container(
@@ -369,7 +369,7 @@ class _RezervacijaState extends State<Rezervacija> {
               decoration: BoxDecoration(
                   image: DecorationImage(
                 fit: BoxFit.fitWidth,
-                image: AssetImage('assets/gm.png'),
+                image: AssetImage('assets/map.png'),
               ))),
         ),
       ]),

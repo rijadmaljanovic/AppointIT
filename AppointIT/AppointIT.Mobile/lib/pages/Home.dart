@@ -36,13 +36,15 @@ class _HomeState extends State<Home> {
         ),
         ExpansionTile(
           expandedAlignment: Alignment.bottomLeft,
-          textColor: Colors.red,
+          textColor: Color.fromARGB(255, 89, 54, 244),
           trailing: SizedBox.shrink(),
           title: Container(
             decoration: BoxDecoration(
               color: Colors.white30,
               border: Border.all(
-                color: clicked == true ? Colors.red : Colors.grey,
+                color: clicked == true
+                    ? Color.fromARGB(255, 89, 54, 244)
+                    : Colors.grey,
               ),
               // borderRadius: BorderRadius.circular(15),
             ),
@@ -70,7 +72,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: Text('Home'), backgroundColor: Colors.pink[200]),
+      appBar: AppBar(
+          title: Text('Home'),
+          backgroundColor: Color.fromARGB(255, 79, 95, 240)),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (id) {
           if (id == 1) {

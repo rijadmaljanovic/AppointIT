@@ -15,7 +15,8 @@ class _CouponsState extends State<Coupons> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Aktivni kuponi'), backgroundColor: Colors.pink[200]),
+          title: Text('Aktivni kuponi'),
+          backgroundColor: Color.fromARGB(255, 89, 54, 244)),
       body: LoadData(),
     );
   }

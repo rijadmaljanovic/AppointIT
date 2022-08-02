@@ -94,13 +94,12 @@ namespace AppointIT.WinUI.TermForms
             this.dgwTerms.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             this.dgwTerms.EnableHeadersVisualStyles = false;
-            this.dgwTerms.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(255, 192, 192);
-            this.dgwTerms.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(169, 49, 102);
+            this.dgwTerms.ColumnHeadersDefaultCellStyle.BackColor = Color.SteelBlue;
+            this.dgwTerms.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             for (int i = 0; i < this.dgwTerms.Rows.Count; i++)
                 this.dgwTerms.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
 
-            //this.dgwTerms.DefaultCellStyle.SelectionBackColor = this.dgwTerms.DefaultCellStyle.BackColor;
 
         }
 
@@ -115,9 +114,5 @@ namespace AppointIT.WinUI.TermForms
             FormMaker.CreateForm(frmAddTerm, this);
         }
 
-        private void pnlHome_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

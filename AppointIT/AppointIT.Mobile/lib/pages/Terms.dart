@@ -82,7 +82,7 @@ class _CalendarState extends State<Calendar> {
                             )),
                   );
                 },
-                color: Colors.pink[200],
+                color: Color.fromARGB(255, 89, 54, 244),
                 child: Center(
                   child: Text(
                     'Zakažite termin',
@@ -125,7 +125,7 @@ class _CalendarState extends State<Calendar> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[200],
+        backgroundColor: Color.fromARGB(255, 89, 54, 244),
         title: Text('Termini'),
       ),
       body: Column(
@@ -178,7 +178,7 @@ class _CalendarState extends State<Calendar> {
                             BoxShadow(offset: Offset(3, 3), blurRadius: 5)
                           ],
                           color: currentDateSelectedIndex == index
-                              ? Colors.pink
+                              ? Color.fromARGB(255, 30, 135, 233)
                               : Colors.white),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

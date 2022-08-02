@@ -47,8 +47,8 @@ namespace AppointIT.WinUI.CouponForms
             {
                 dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
             }
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(255, 192, 192);
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(169, 49, 102);
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.SteelBlue;
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             dataGridView1.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.BackColor;
         }

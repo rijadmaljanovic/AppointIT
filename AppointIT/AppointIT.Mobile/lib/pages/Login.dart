@@ -34,10 +34,10 @@ class _LoginState extends State<Login> {
         Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/ss.png'),
+                  image: AssetImage('assets/appointit-logo.png'),
                   fit: BoxFit.fitWidth,
                   colorFilter:
-                      ColorFilter.mode(Colors.black54, BlendMode.darken))),
+                      ColorFilter.mode(Colors.transparent, BlendMode.darken))),
         ),
         Form(
           key: _formKeyLogin,
@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
                       width: size.width * 0.8,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: Colors.pinkAccent[200],
+                        color: Color.fromARGB(255, 57, 84, 241),
                       ),
                       child: TextButton(
                         onPressed: () async {
