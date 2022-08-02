@@ -18,9 +18,9 @@ The project consists of three parts: Web API - backend created using ASP .Net Co
  
  5. Run the flutter app with the following command:
 
-- flutter run
-*Make sure you have an emulator running before using the command! 
-adnan@gmail.com
+- flutter run <br/>
+*Important disclaimer - Make sure you have an emulator running before using the command
+
 ## Login credentials:
 **Desktop**<br/>
 ```
