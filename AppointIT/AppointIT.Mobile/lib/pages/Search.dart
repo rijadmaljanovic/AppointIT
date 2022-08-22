@@ -205,6 +205,7 @@ class _SearchState extends State<Search> {
   }
 }
 
+//default card
 Widget kartica(MdlCustom custom, BuildContext context) {
   return Column(
     children: [
