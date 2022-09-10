@@ -37,7 +37,12 @@ Password: Test1!
 
 **Mobile**<br/>
 ```
-User:
+Customer 1:
 Username: rijad.mobile@gmail.com
+Password: Test1!
+```
+```
+Customer 2:
+Username: amel.music@edu.fit.ba
 Password: Test1!
 ```
