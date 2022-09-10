@@ -18,6 +18,7 @@ namespace AppointIT.Services
         }
         public override IEnumerable<Model.Models.CustomerCoupon> Get(CustomerCouponSearchObject search = null)
         {
+            //coupons per cust
             var entity = _context.Set<Database.CustomerCoupon>().AsQueryable();
 
             if (search?.CouponId!=null)

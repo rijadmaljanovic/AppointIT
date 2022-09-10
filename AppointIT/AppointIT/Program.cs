@@ -72,7 +72,7 @@ builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ITermCustomService, TermCustomService>();
 builder.Services.AddScoped<ICustomerCouponsService, CustomerCouponsService>();
-builder.Services.AddScoped<ICustomerServiceRecommendService, CustomerServiceRecommendService>();
+builder.Services.AddScoped<ICustomerRecommenderService, CustomerRecommenderService>();
 
 
 builder.Services.AddTransient<IMailService, SendGridMailService>();

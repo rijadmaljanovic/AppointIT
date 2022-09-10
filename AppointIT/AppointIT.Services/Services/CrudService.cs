@@ -12,6 +12,7 @@ namespace AppointIT.Services
         ICrudService<T,TSearch, TInsert, TUpdate>
         where T : class where TDB : class where TSearch : class where TInsert : class where TUpdate : class
     {
+
         public CrudService(MyContext context, IMapper mapper) : base(context, mapper) { }
         public virtual T Insert(TInsert Insert)
         {

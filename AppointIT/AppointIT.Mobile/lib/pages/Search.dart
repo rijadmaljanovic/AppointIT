@@ -42,7 +42,7 @@ class _SearchState extends State<Search> {
   TextEditingController controllerService = new TextEditingController();
 
   Future<List<MdlCustom>> fetchCustom() async {
-    var custom = await APIService.Get('TermCustom', null);
+    var custom = await APIService.Get('CustomerRecommender', null);
     return custom!.map((e) => MdlCustom.fromJson(e)).toList();
   }
 
@@ -56,14 +56,14 @@ class _SearchState extends State<Search> {
         'ServiceName': controllerService.text,
         'CustomerId': customer.toString(),
       };
-      var custom = await APIService.Get('TermCustom', queryParams);
+      var custom = await APIService.Get('CustomerRecommender', queryParams);
       return custom!.map((e) => MdlCustom.fromJson(e)).toList();
     } else {
       Map<String, dynamic> queryParams = {
         'Location': controllerLocation.text,
         'ServiceName': controllerService.text,
       };
-      var custom = await APIService.Get('TermCustom', queryParams);
+      var custom = await APIService.Get('CustomerRecommender', queryParams);
       return custom!.map((e) => MdlCustom.fromJson(e)).toList();
     }
   }

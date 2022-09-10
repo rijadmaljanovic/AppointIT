@@ -28,7 +28,7 @@ namespace AppointIT.Services
             var customerCouponList = customerCouponEntity.ToList();
 
             var mergeList = list.Where(x => !customerCouponList.Any(y => y.CouponId == x.Id)).ToList();
-
+            //active coupons
             return _mapper.Map<List<Model.Models.Coupon>>(mergeList);
         }
 

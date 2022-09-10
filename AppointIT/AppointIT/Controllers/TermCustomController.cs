@@ -22,9 +22,9 @@ namespace AppointIT.Controllers
             _service = service;
         }
         [HttpGet]
-        public virtual IEnumerable<SalonCustom> Get([FromQuery] TermCustomSearchObject search)
+        public virtual TermCustom Get(int id)
         {
-            return _service.GetAll(search);
+            return _service.Get(id);
         }
     }
 }

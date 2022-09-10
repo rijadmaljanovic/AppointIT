@@ -48,5 +48,6 @@ namespace AppointIT.Controllers
         {
             return _service.Register(request);
         }
+
     }
 }

@@ -25,6 +25,7 @@ namespace AppointIT.Services
                 foreach (var item in search.IncludeList)
                     entity = entity.Include(item);
             }
+
             if (search.ServiceId.HasValue)
                 entity = entity.Where(x => x.ServiceId == search.ServiceId.Value);
 
@@ -41,6 +42,7 @@ namespace AppointIT.Services
                 entity = entity.Where(x => x.Reserved == false);
 
             var list = entity.OrderBy(x => x.StartTime).ToList();
+            //list of appointments
             return _mapper.Map<List<Model.Models.Term>>(list);
         }
 

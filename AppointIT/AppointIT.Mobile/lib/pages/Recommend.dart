@@ -17,8 +17,7 @@ Future<int> fetchCustomer() async {
 
 Future<List<MdlRecommend>> fetchRecommend() async {
   var customer = await fetchCustomer();
-  var result =
-      await APIService.GetListById('CustomerServiceRecommend', customer);
+  var result = await APIService.GetListById('CustomerRecommender', customer);
   var recommend = result!.map((e) => MdlRecommend.fromJson(e)).toList();
   return recommend;
 }
