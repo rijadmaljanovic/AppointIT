@@ -28,16 +28,21 @@ namespace AppointIT.Services
 
         public List<Model.Models.CustomerServiceRecommend> Recommend(int customerId)
         {
+            var customerSearchHistory = _context.CustomerSearchHistories
+                .Include(x => x.Service)
+                .Where(x => x.CustomerId == customerId)
+                .ToList();
+
+            if(customerSearchHistory.Count <=1 )
+            {
+                return new List<Model.Models.CustomerServiceRecommend>();
+            }
+
             lock (isLocked)
             {
                 if (mlContext == null)
                 {
                     mlContext = new MLContext();
-
-                    var customerSearchHistory = _context.CustomerSearchHistories
-                        .Include(x => x.Service)
-                        .Where(x => x.CustomerId == customerId)
-                        .ToList();
 
                     var searchHistoryData = customerSearchHistory.Select(x => new InputData
                     {

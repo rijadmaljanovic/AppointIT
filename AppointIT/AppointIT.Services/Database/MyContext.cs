@@ -39,7 +39,7 @@ namespace AppointIT.Services.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=WSM-49KY3M3;Initial Catalog=AppointIT; Trusted_Connection=True; user=sa; Password=QWEasd123!");
+                optionsBuilder.UseSqlServer("Server=localhost;Initial Catalog=AppointIT; Trusted_Connection=True; user=sa; Password=QWEasd123!");
 
             }
         }
