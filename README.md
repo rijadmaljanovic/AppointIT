@@ -9,6 +9,8 @@ The project consists of three parts: Web API - backend created using ASP .Net Co
 
 2. In the folder where the project is located, enter the following commands (CMD / Powershell): <br/>
 
+- docker-compose up -d
+or
 - docker-compose build
 - docker-compose up
 
