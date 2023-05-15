@@ -52,11 +52,13 @@ namespace AppointIT.Services
 
                     var dataView = mlContext.Data.LoadFromEnumerable(searchHistoryData);
 
+                    int numberOfClusters = customerSearchHistory.Count > 1 ? Math.Min(3, customerSearchHistory.Count) : 1;
+
                     var pipeline = mlContext.Transforms.Conversion
                         .MapValueToKey("ServiceName")
                         .Append(mlContext.Transforms.Categorical.OneHotEncoding("ServiceName"))
                         .Append(mlContext.Transforms.NormalizeMinMax("ServiceName"))
-                        .Append(mlContext.Clustering.Trainers.KMeans("ServiceName", numberOfClusters: 3));
+                        .Append(mlContext.Clustering.Trainers.KMeans("ServiceName", numberOfClusters: numberOfClusters));
 
                     model = pipeline.Fit(dataView);
                 }
