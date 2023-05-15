@@ -65,15 +65,20 @@ Widget Kartica(MdlRecommend recommend) {
         recommend.serviceName,
         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
-      title: Text(
-        recommend.salonName,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        recommend.servicePrice.toString(),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            recommend.salonName,
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            recommend.servicePrice.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     ),
   );
