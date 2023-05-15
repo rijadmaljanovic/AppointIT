@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Models;
+using Microsoft.ML;
+using Microsoft.ML.Data;
 
 namespace AppointIT.Services
 {
     public class CustomerRecommenderService : ICustomerRecommenderService
     {
-        protected readonly MyContext _context;
-        protected readonly IMapper _mapper;
+        private readonly MyContext _context;
+        private readonly IMapper _mapper;
+        private static readonly object isLocked = new object();
+        private static MLContext mlContext;
+        private static ITransformer model;
 
         public CustomerRecommenderService( MyContext _context, IMapper _mapper)
         {
@@ -21,32 +26,97 @@ namespace AppointIT.Services
             this._mapper = _mapper;
         }
 
-        
-        List<Model.Models.CustomerServiceRecommend> ICustomerRecommenderService.Get(int CustomerId)
+        public List<Model.Models.CustomerServiceRecommend> Recommend(int customerId)
         {
-            //NOTE: ALL THE LOGIC FOR THE RECOMMENDER ALGORITHM IS IMPLEMENTED IN THE METHOD BELOW ('Recommender')
-
-            //in this method the data from the recommender algorithm is processed according to the customerId
-            //so it can be showed on the 'Recommender' page in flutter according to the logged user (customerId)
-            var entity = _context.Set<Database.CustomerServiceRecommend>().AsQueryable();
-
-            entity = entity.Where(x => x.CustomerId == CustomerId);
-            
-            List<Model.Models.CustomerServiceRecommend> list = entity.Include(x=>x.Service)
-            .Select(x => new Model.Models.CustomerServiceRecommend
+            lock (isLocked)
             {
-                CustomerId=x.CustomerId,
-                ServiceId=x.ServiceId,
-                ServiceName=x.Service.Name,
-                ServicPrice=x.Service.Price.Value,
+                if (mlContext == null)
+                {
+                    mlContext = new MLContext();
 
-            }).Distinct().ToList();
+                    var customerSearchHistory = _context.CustomerSearchHistories
+                        .Include(x => x.Service)
+                        .Where(x => x.CustomerId == customerId)
+                        .ToList();
 
-            return list;
+                    var searchHistoryData = customerSearchHistory.Select(x => new InputData
+                    {
+                        CustomerId = (uint)x.CustomerId,
+                        ServiceName = x.Service.Name
+                    }).ToList();
+
+                    var dataView = mlContext.Data.LoadFromEnumerable(searchHistoryData);
+
+                    var pipeline = mlContext.Transforms.Conversion
+                        .MapValueToKey("ServiceName")
+                        .Append(mlContext.Transforms.Categorical.OneHotEncoding("ServiceName"))
+                        .Append(mlContext.Transforms.NormalizeMinMax("ServiceName"))
+                        .Append(mlContext.Clustering.Trainers.KMeans("ServiceName", numberOfClusters: 3));
+
+                    model = pipeline.Fit(dataView);
+                }
+            }
+
+            var predictionResult = new List<Model.Models.CustomerServiceRecommend>();
+
+            var predictionEngine = mlContext.Model.CreatePredictionEngine<InputData, OutputData>(model);
+
+            var customerSearchHistoryServiceNames = _context.CustomerSearchHistories
+               .Include(x => x.Service)
+               .Where(x => x.CustomerId == customerId)
+               .Select(x => x.Service.Name)
+               .ToList();
+
+            List<Database.Service> allServices = _context.Services
+                .Where(x => customerSearchHistoryServiceNames.Contains(x.Name))
+                .ToList();
+
+            var customerHistory = _context.CustomerSearchHistories
+               .Include(x => x.Service)
+               .ThenInclude(x => x.SalonServices)
+               .Where(x => x.CustomerId == customerId)
+               .ToList();
+
+            if (customerHistory.Count > 0)
+            {
+                var lastService = customerHistory.OrderByDescending(x => x.Id).First();
+                var lastServicePrediction = predictionEngine.Predict(new InputData { ServiceName = lastService.Service.Name });
+
+                foreach (var service in allServices)
+                {
+                    var prediction = predictionEngine.Predict(new InputData()
+                    {
+                        ServiceName = service.Name,
+                    });
+
+                    if (prediction.PredictedClusterId == lastServicePrediction.PredictedClusterId)
+                    {
+                        predictionResult.Add(new Model.Models.CustomerServiceRecommend()
+                        {
+                            ServiceId = service.Id,
+                            CustomerId = customerId,
+                            ServiceName = service.Name,
+                            ServicePrice = service.Price
+                        });
+                    }
+                }
+            }
+            return predictionResult.OrderBy(x => x.ServicePrice).ToList();
         }
 
-        //recommender algorithm 
-        public List<SalonCustom> Recommender(TermCustomSearchObject search = null)
+        public class InputData
+        {
+            public uint CustomerId;
+            public string ServiceName { get; set; }
+        }
+
+        public class OutputData
+        {
+            [ColumnName("PredictedLabel")]
+            public uint PredictedClusterId;
+        }
+
+        public List<SalonCustom> SearchFilter(TermCustomSearchObject search = null)
         {
             if (search != null)
             {
@@ -95,21 +165,17 @@ namespace AppointIT.Services
                             f.CityName = x.CityName;
                             f.services.Add(new ServiceCustom { ServiceId = x.ServiceId, ServiceName = x.ServiceName, ServicePrice = x.ServicePrice.Value });
 
-                            //store all services which have the Terms for recommendation in CustomerServiceRecommend table so they can be further processed 
                             if (search?.CustomerId != null)
                             {
-                                _context.CustomerServiceRecommend.Add(new Database.CustomerServiceRecommend { CustomerId = search.CustomerId.Value, ServiceId = x.ServiceId });
+                                _context.CustomerSearchHistories.Add(new Database.CustomerSearchHistory { CustomerId = search.CustomerId.Value, ServiceId = x.ServiceId });
                             }
                         }
                     }
                 }
 
-                //needed for the recommender --CustomerServiceRecommend table
                 if (search?.CustomerId != null)
                         _context.SaveChanges();
 
-
-                //by default it returns the list of available salons, if search is not null then it returns a list of the search results
                 return list;
 
             }

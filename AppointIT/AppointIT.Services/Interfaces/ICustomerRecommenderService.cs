@@ -9,8 +9,8 @@ namespace AppointIT.Services.Interfaces
 {
     public interface ICustomerRecommenderService
     {
-        List<CustomerServiceRecommend> Get(int CustomerId);
-        List<SalonCustom> Recommender(TermCustomSearchObject search = null);
+        List<CustomerServiceRecommend> Recommend(int CustomerId);
+        List<SalonCustom> SearchFilter(TermCustomSearchObject search = null);
 
     }
 }

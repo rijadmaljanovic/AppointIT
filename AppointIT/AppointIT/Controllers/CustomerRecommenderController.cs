@@ -24,14 +24,14 @@ namespace AppointIT.Controllers
         [HttpGet("{CustomerId}")]
         public List<CustomerServiceRecommend> GetRecommend(int CustomerId) 
         {
-            return service.Get(CustomerId);
+            return service.Recommend(CustomerId);
         }
          
 
         [HttpGet]
         public virtual IEnumerable<SalonCustom> Get([FromQuery] TermCustomSearchObject search)
         {
-            return service.Recommender(search);
+            return service.SearchFilter(search);
         }
 
     }

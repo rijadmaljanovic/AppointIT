@@ -10,6 +10,6 @@ namespace AppointIT.Model.Models
         public int ServiceId { get; set; }
         public int CustomerId { get; set; }
         public string ServiceName { get; set; }
-        public decimal ServicPrice { get; set; }
+        public decimal? ServicePrice { get; set; }
     }
 }
