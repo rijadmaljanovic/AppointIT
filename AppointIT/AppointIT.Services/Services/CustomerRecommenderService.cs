@@ -68,23 +68,21 @@ namespace AppointIT.Services
 
             var customerSearchHistoryServiceNames = _context.CustomerSearchHistories
                .Include(x => x.Service)
+               .ThenInclude(s => s.SalonServices)
+               .ThenInclude(ss => ss.Salon)
                .Where(x => x.CustomerId == customerId)
                .Select(x => x.Service.Name)
                .ToList();
 
             List<Database.Service> allServices = _context.Services
+                .Include(s => s.SalonServices)
+                .ThenInclude(ss => ss.Salon)
                 .Where(x => customerSearchHistoryServiceNames.Contains(x.Name))
-                .ToList();
+                .ToList(); ;
 
-            var customerHistory = _context.CustomerSearchHistories
-               .Include(x => x.Service)
-               .ThenInclude(x => x.SalonServices)
-               .Where(x => x.CustomerId == customerId)
-               .ToList();
-
-            if (customerHistory.Count > 0)
+            if (customerSearchHistory.Count > 0)
             {
-                var lastService = customerHistory.OrderByDescending(x => x.Id).First();
+                var lastService = customerSearchHistory.OrderByDescending(x => x.Id).First();
                 var lastServicePrediction = predictionEngine.Predict(new InputData { ServiceName = lastService.Service.Name });
 
                 foreach (var service in allServices)
@@ -96,12 +94,15 @@ namespace AppointIT.Services
 
                     if (prediction.PredictedClusterId == lastServicePrediction.PredictedClusterId)
                     {
+                        string salonName = service.SalonServices.FirstOrDefault()?.Salon?.Name;
+
                         predictionResult.Add(new Model.Models.CustomerServiceRecommend()
                         {
                             ServiceId = service.Id,
                             CustomerId = customerId,
                             ServiceName = service.Name,
-                            ServicePrice = service.Price
+                            ServicePrice = service.Price,
+                            SalonName = salonName
                         });
                     }
                 }

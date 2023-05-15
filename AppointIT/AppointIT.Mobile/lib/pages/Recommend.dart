@@ -65,8 +65,12 @@ Widget Kartica(MdlRecommend recommend) {
         recommend.serviceName,
         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
+      title: Text(
+        recommend.salonName,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      ),
       subtitle: Text(
-        recommend.servicPrice.toString(),
+        recommend.servicePrice.toString(),
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),

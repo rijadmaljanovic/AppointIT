@@ -3,13 +3,15 @@ class MdlRecommend {
   final int serviceId;
   final int customerId;
   final String serviceName;
-  final double servicPrice;
+  final String salonName;
+  final double servicePrice;
   MdlRecommend({
     required this.id,
     required this.serviceId,
     required this.customerId,
     required this.serviceName,
-    required this.servicPrice,
+    required this.salonName,
+    required this.servicePrice,
   });
   factory MdlRecommend.fromJson(Map<String, dynamic> json) {
     return MdlRecommend(
@@ -17,7 +19,8 @@ class MdlRecommend {
       serviceId: json["serviceId"],
       customerId: json["customerId"],
       serviceName: json["serviceName"],
-      servicPrice: json["servicPrice"],
+      salonName: json["salonName"],
+      servicePrice: json["servicePrice"],
     );
   }
 }
