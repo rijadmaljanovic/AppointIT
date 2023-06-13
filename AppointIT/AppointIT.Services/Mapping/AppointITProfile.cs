@@ -1,4 +1,5 @@
 ﻿using AppointIT.Model.Models;
+using AppointIT.Model.Requests;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ namespace AppointIT.Services.Mapping
             CreateMap<Database.CustomerCoupon, CustomerCoupon>();
             CreateMap<Database.Customer, Customer>();
 
+            CreateMap<Database.ServiceRating, ServiceRatingInsertRequest>().ReverseMap();
+            CreateMap<Database.ServiceRating, ServiceRating>().ReverseMap();
         }
     }
 }

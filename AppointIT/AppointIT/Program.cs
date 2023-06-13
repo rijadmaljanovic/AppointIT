@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Configuration;
+using AppointIT.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ITermCustomService, TermCustomService>();
 builder.Services.AddScoped<ICustomerCouponsService, CustomerCouponsService>();
 builder.Services.AddScoped<ICustomerRecommenderService, CustomerRecommenderService>();
+builder.Services.AddScoped<IServiceRatingService, ServiceRatingService>();
 
 
 builder.Services.AddTransient<IMailService, SendGridMailService>();
@@ -111,11 +113,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<MyContext>();
-    new SetupService().Init(dbContext);
-    new SetupService().InsertData(dbContext);
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<MyContext>();
+//    new SetupService().Init(dbContext);
+//    new SetupService().InsertData(dbContext);
+//}
 
 app.Run();

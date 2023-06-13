@@ -71,7 +71,7 @@ namespace AppointIT.WinUI.ServiceForms
                 cmbSalon.Visible = false;
                 lblSalon.Visible = false;
                 
-                pbxImage.Image = ImageHelper.ConvertFromByteToImage(_service.Photo);
+               // pbxImage.Image = ImageHelper.ConvertFromByteToImage(_service.Photo);
             }
             else
             {

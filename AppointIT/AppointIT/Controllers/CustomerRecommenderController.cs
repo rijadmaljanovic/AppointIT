@@ -21,18 +21,18 @@ namespace AppointIT.Controllers
             this.service = service;
         }
 
-        [HttpGet("{CustomerId}")]
-        public List<CustomerServiceRecommend> GetRecommend(int CustomerId) 
-        {
-            return service.Recommend(CustomerId);
-        }
-         
-
         [HttpGet]
-        public virtual IEnumerable<SalonCustom> Get([FromQuery] TermCustomSearchObject search)
+        public IActionResult RecommendedProduct(int id)
         {
-            return service.SearchFilter(search);
+            try
+            {
+                return Ok(service.Recommend(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
-
     }
+
 }

@@ -15,6 +15,5 @@ namespace AppointIT.Services.Database
         public  int CategoryId { get; set; }
         public  Category Category { get; set; }
         public virtual ICollection<SalonServices> SalonServices { get; set; }
-
     }
 }

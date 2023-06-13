@@ -30,7 +30,6 @@ namespace AppointIT.Services
                     entity = entity.Include(item);
             }
 
-
             var list = entity.ToList();
 
             return _mapper.Map<List<Model.Models.Salon>>(list);
