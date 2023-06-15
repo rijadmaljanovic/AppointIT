@@ -9,8 +9,8 @@ class Recommend extends StatefulWidget {
   _RecommendState createState() => _RecommendState();
 }
 
-Future<int?> fetchService() async {
-  var service = await APIService.GetLast('GetLastService', null);
+Future<int?> fetchSalon() async {
+  var service = await APIService.GetLast('GetLastRatedSalon', null);
   if (service == null || service == 0) {
     return 0;
   }
@@ -18,9 +18,9 @@ Future<int?> fetchService() async {
 }
 
 Future<List<MdlRecommend>> fetchRecommend() async {
-  var service = await fetchService();
-  if (service != 0) {
-    var result = await APIService.GetListById('CustomerRecommender', service!);
+  var salon = await fetchSalon();
+  if (salon != 0) {
+    var result = await APIService.GetListById('CustomerRecommender', salon!);
     var recommend = result!.map((e) => MdlRecommend.fromJson(e)).toList();
     return recommend;
   }
@@ -32,7 +32,7 @@ class _RecommendState extends State<Recommend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preporučeni proizvodi'),
+        title: Text('Preporučeni Saloni'),
         backgroundColor: Color.fromARGB(255, 89, 54, 244),
       ),
       body: LoadData(),
@@ -48,7 +48,7 @@ Widget LoadData() {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return Center(child: CircularProgressIndicator());
       } else if (snapshot.data!.length == 0) {
-        return Text("Nema dovoljno ocijenjenih usluga.");
+        return Text("Nema dovoljno ocijenjenih salona.");
       } else if (snapshot.hasError) {
         return Center(
           child: Text('Error...'),
@@ -74,14 +74,12 @@ Widget Kartica(MdlRecommend recommend) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Trajanje " + recommend.duration.toString() + " minuta.",
+            "Kratak opis: \n" + recommend.description,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           Text(
-            "Cijena: " + recommend.price.toString() + "KM",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+            "\n Lokacija: " + recommend.location,
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ],
       ),

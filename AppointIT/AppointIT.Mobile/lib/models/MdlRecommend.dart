@@ -1,23 +1,26 @@
 class MdlRecommend {
   final int id;
-  final int categoryId;
-  final double duration;
   final String name;
-  final double price;
+  final String location;
+  final String description;
+  final double lat;
+  final double lng;
   MdlRecommend({
     required this.id,
-    required this.categoryId,
-    required this.duration,
     required this.name,
-    required this.price,
+    required this.location,
+    required this.description,
+    required this.lat,
+    required this.lng,
   });
   factory MdlRecommend.fromJson(Map<String, dynamic> json) {
     return MdlRecommend(
       id: json["id"],
-      categoryId: json["categoryId"],
-      duration: json["duration"],
       name: json["name"],
-      price: json["price"],
+      location: json["location"],
+      description: json["description"],
+      lat: json["lat"],
+      lng: json["lng"],
     );
   }
 }

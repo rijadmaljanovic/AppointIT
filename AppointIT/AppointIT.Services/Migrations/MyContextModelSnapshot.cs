@@ -306,6 +306,34 @@ namespace AppointIT.Services.Migrations
                     b.ToTable("Salons");
                 });
 
+            modelBuilder.Entity("AppointIT.Services.Database.SalonRating", b =>
+                {
+                    b.Property<int>("SalonRatingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("RatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SalonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SalonRatingId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("SalonId");
+
+                    b.ToTable("SalonRatings");
+                });
+
             modelBuilder.Entity("AppointIT.Services.Database.SalonServices", b =>
                 {
                     b.Property<int>("SalonServicesId")
@@ -375,34 +403,6 @@ namespace AppointIT.Services.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServicePhotos");
-                });
-
-            modelBuilder.Entity("AppointIT.Services.Database.ServiceRating", b =>
-                {
-                    b.Property<int>("ServiceRatingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("RatingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ServiceRatingId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("ServiceRatings");
                 });
 
             modelBuilder.Entity("AppointIT.Services.Database.Term", b =>
@@ -553,6 +553,25 @@ namespace AppointIT.Services.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("AppointIT.Services.Database.SalonRating", b =>
+                {
+                    b.HasOne("AppointIT.Services.Database.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AppointIT.Services.Database.Salon", "Salon")
+                        .WithMany()
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Salon");
+                });
+
             modelBuilder.Entity("AppointIT.Services.Database.SalonServices", b =>
                 {
                     b.HasOne("AppointIT.Services.Database.Salon", "Salon")
@@ -590,25 +609,6 @@ namespace AppointIT.Services.Migrations
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("AppointIT.Services.Database.ServiceRating", b =>
-                {
-                    b.HasOne("AppointIT.Services.Database.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AppointIT.Services.Database.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Service");
                 });

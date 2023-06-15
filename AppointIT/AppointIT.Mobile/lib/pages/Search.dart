@@ -140,7 +140,7 @@ class _SearchState extends State<Search> {
                   color: Color.fromARGB(255, 89, 54, 244)),
               child: Center(
                 child: Text(
-                  "Preporučeni proizvodi",
+                  "Preporučeni saloni",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,

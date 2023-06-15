@@ -13,7 +13,7 @@ namespace AppointIT.Services
     {
         private readonly MyContext _context;
         private readonly IMapper _mapper;
-        Dictionary<int, List<Database.ServiceRating>> services = new Dictionary<int, List<Database.ServiceRating>>();
+        Dictionary<int, List<Database.SalonRating>> salons = new Dictionary<int, List<Database.SalonRating>>();
 
         public CustomerRecommenderService(MyContext context, IMapper mapper)
         {
@@ -21,29 +21,29 @@ namespace AppointIT.Services
             _mapper = mapper;
         }
 
-        private List<Database.Service> LoadSimilar(int serviceId)
+        private List<Database.Salon> LoadSimilar(int salonId)
         {
-            LoadOtherServices(serviceId);
-            List<Database.ServiceRating> ratingOfCurrent = _context.ServiceRatings.Where(x => x.ServiceId == serviceId).OrderBy(x => x.CustomerId).ToList();
+            LoadOtherSalons(salonId);
+            List<Database.SalonRating> ratingOfCurrent = _context.SalonRatings.Where(x => x.SalonId == salonId).OrderBy(x => x.CustomerId).ToList();
 
-            List<Database.ServiceRating> ratings1 = new List<Database.ServiceRating>();
-            List<Database.ServiceRating> ratings2 = new List<Database.ServiceRating>();
-            List<Database.Service> recommendedServices= new List<Database.Service>();
+            List<Database.SalonRating> ratings1 = new List<Database.SalonRating>();
+            List<Database.SalonRating> ratings2 = new List<Database.SalonRating>();
+            List<Database.Salon> recommendedServices= new List<Database.Salon>();
 
-            foreach (var service in services)
+            foreach (var salon in salons)
             {
-                foreach (Database.ServiceRating rating in ratingOfCurrent)
+                foreach (Database.SalonRating rating in ratingOfCurrent)
                 {
-                    if (service.Value.Where(w => w.CustomerId == rating.CustomerId).Count() > 0)
+                    if (salon.Value.Where(w => w.CustomerId == rating.CustomerId).Count() > 0)
                     {
                         ratings1.Add(rating);
-                        ratings2.Add(service.Value.Where(w => w.CustomerId == rating.CustomerId).First());
+                        ratings2.Add(salon.Value.Where(w => w.CustomerId == rating.CustomerId).First());
                     }
                 }
                 double similarity = GetSimilarity(ratings1, ratings2);
                 if (similarity > 0.5)
                 {
-                    recommendedServices.Add(_context.Services.AsQueryable().Where(w => w.Id == service.Key).FirstOrDefault());
+                    recommendedServices.Add(_context.Salons.AsQueryable().Where(w => w.Id == salon.Key).FirstOrDefault());
                 }
                 ratings1.Clear();
                 ratings2.Clear();
@@ -51,7 +51,7 @@ namespace AppointIT.Services
             return recommendedServices;
         }
 
-        private double GetSimilarity(List<Database.ServiceRating> ratings1, List<Database.ServiceRating> ratings2)
+        private double GetSimilarity(List<Database.SalonRating> ratings1, List<Database.SalonRating> ratings2)
         {
             if (ratings1.Count != ratings2.Count)
             {
@@ -74,25 +74,25 @@ namespace AppointIT.Services
             return x / y;
         }
 
-        private void LoadOtherServices(int serviceId)
+        private void LoadOtherSalons(int salonId)
         {
-            List<Database.Service> list = _context.Services.Where(w => w.Id != serviceId).ToList();
-            List<Database.ServiceRating> ratings = new List<Database.ServiceRating>();
+            List<Database.Salon> list = _context.Salons.Where(w => w.Id != salonId).ToList();
+            List<Database.SalonRating> ratings = new List<Database.SalonRating>();
             foreach (var item in list)
             {
-                ratings = _context.ServiceRatings.Where(w => w.ServiceId == item.Id).OrderBy(w => w.ServiceId).ToList();
+                ratings = _context.SalonRatings.Where(w => w.SalonId == item.Id).OrderBy(w => w.SalonId).ToList();
                 if (ratings.Count > 0)
                 {
-                    services.Add(item.Id, ratings);
+                    salons.Add(item.Id, ratings);
                 }
             }
 
         }
 
-        public List<Model.Models.Service> Recommend(int serviceId)
+        public List<Model.Models.Salon> Recommend(int salonId)
         {
-            var tmp = LoadSimilar(serviceId);
-            return _mapper.Map<List<Model.Models.Service>>(tmp);
+            var tmp = LoadSimilar(salonId);
+            return _mapper.Map<List<Model.Models.Salon>>(tmp);
         }
 
         public List<SalonCustom> SearchFilter(TermCustomSearchObject search = null)

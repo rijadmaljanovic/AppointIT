@@ -32,7 +32,7 @@ namespace AppointIT.Services.Database
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<BaseUserRole> BaseUserRoles { get; set; }
         public virtual DbSet<SalonServices> SalonServices { get; set; }
-        public virtual DbSet<ServiceRating> ServiceRatings { get; set; }
+        public virtual DbSet<SalonRating> SalonRatings { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

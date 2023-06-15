@@ -39,8 +39,8 @@ namespace AppointIT.Services.Mapping
             CreateMap<Database.CustomerCoupon, CustomerCoupon>();
             CreateMap<Database.Customer, Customer>();
 
-            CreateMap<Database.ServiceRating, ServiceRatingInsertRequest>().ReverseMap();
-            CreateMap<Database.ServiceRating, ServiceRating>().ReverseMap();
+            CreateMap<Database.SalonRating, SalonRatingInsertRequest>().ReverseMap();
+            CreateMap<Database.SalonRating, SalonRating>().ReverseMap();
         }
     }
 }
