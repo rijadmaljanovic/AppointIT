@@ -10,5 +10,6 @@ namespace AppointIT.Services.Interfaces
 {
     public interface IServiceRatingService : ICrudService<ServiceRating, ServiceRatingSearchObject, ServiceRatingInsertRequest, ServiceRatingInsertRequest>
     {
+        int GetLastService();
     }
 }

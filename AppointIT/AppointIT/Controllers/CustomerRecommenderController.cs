@@ -22,11 +22,11 @@ namespace AppointIT.Controllers
         }
 
         [HttpGet("{ServiceId}")]
-        public IActionResult RecommendedProduct(int id)
+        public IActionResult RecommendedProduct(int ServiceId)
         {
             try
             {
-                return Ok(service.Recommend(id));
+                return Ok(service.Recommend(ServiceId));
             }
             catch (Exception ex)
             {

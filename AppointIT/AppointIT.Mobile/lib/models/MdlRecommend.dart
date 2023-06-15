@@ -1,26 +1,23 @@
 class MdlRecommend {
   final int id;
-  final int serviceId;
-  final int customerId;
-  final String serviceName;
-  final String salonName;
-  final double servicePrice;
+  final int categoryId;
+  final double duration;
+  final String name;
+  final double price;
   MdlRecommend({
     required this.id,
-    required this.serviceId,
-    required this.customerId,
-    required this.serviceName,
-    required this.salonName,
-    required this.servicePrice,
+    required this.categoryId,
+    required this.duration,
+    required this.name,
+    required this.price,
   });
   factory MdlRecommend.fromJson(Map<String, dynamic> json) {
     return MdlRecommend(
       id: json["id"],
-      serviceId: json["serviceId"],
-      customerId: json["customerId"],
-      serviceName: json["serviceName"],
-      salonName: json["salonName"],
-      servicePrice: json["servicePrice"],
+      categoryId: json["categoryId"],
+      duration: json["duration"],
+      name: json["name"],
+      price: json["price"],
     );
   }
 }

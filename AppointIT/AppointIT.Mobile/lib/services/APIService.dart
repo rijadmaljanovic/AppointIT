@@ -86,6 +86,26 @@ class APIService {
   }
 
   // ignore: non_constant_identifier_names
+  static Future<int?> GetLast(String route, dynamic object) async {
+    String queryString = Uri(queryParameters: object).query;
+    String baseUrl = "http://10.0.2.2:5001/" + route;
+    print(baseUrl);
+    if (object != null) {
+      baseUrl = baseUrl + '?' + queryString;
+    }
+    final String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    final response = await http.get(
+      Uri.parse(baseUrl),
+      headers: {'Authorization': basicAuth},
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body) as int;
+    }
+    return null;
+  }
+
+  // ignore: non_constant_identifier_names
   static Future<List<dynamic>?> GetListById(String route, int id) async {
     String baseUrl = "http://10.0.2.2:5001/" + route + "/" + id.toString();
     final String basicAuth =
