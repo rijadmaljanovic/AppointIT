@@ -21,7 +21,7 @@ namespace AppointIT.Controllers
             this.service = service;
         }
 
-        [HttpGet]
+        [HttpGet("{ServiceId}")]
         public IActionResult RecommendedProduct(int id)
         {
             try
@@ -32,6 +32,12 @@ namespace AppointIT.Controllers
             {
                 return StatusCode(500, ex);
             }
+        }
+
+        [HttpGet]
+        public virtual IEnumerable<SalonCustom> Get([FromQuery] TermCustomSearchObject search)
+        {
+            return service.SearchFilter(search);
         }
     }
 

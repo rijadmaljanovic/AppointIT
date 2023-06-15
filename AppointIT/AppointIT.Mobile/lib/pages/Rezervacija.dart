@@ -201,7 +201,7 @@ class _RezervacijaState extends State<Rezervacija> {
           content: Text("Nova cijena : " + sumController.toString()),
           actions: <Widget>[
             // ignore: deprecated_member_use
-            new FlatButton(
+            new TextButton(
               child: new Text("Otkazi"),
               onPressed: () {
                 controllerKupon.clear();
@@ -209,7 +209,7 @@ class _RezervacijaState extends State<Rezervacija> {
               },
             ),
             // ignore: deprecated_member_use
-            new FlatButton(
+            new TextButton(
               child: new Text("Nastavi"),
               onPressed: () {
                 double controllerInt = double.parse(sumController.toString());
@@ -337,7 +337,7 @@ class _RezervacijaState extends State<Rezervacija> {
           height: 55,
           width: MediaQuery.of(context).size.width * 0.95,
           // ignore: deprecated_member_use
-          child: RaisedButton(
+          child: ElevatedButton(
             onPressed: () {
               controller.text = widget.price.toString();
               pocetnaCijena = widget.price;

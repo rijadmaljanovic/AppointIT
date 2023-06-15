@@ -135,7 +135,7 @@ void _showDialog(BuildContext context) {
         content: new Text("Pogrešan username ili password"),
         actions: <Widget>[
           // ignore: deprecated_member_use
-          new FlatButton(
+          new TextButton(
             child: new Text("OK"),
             onPressed: () {
               Navigator.of(context).pop();

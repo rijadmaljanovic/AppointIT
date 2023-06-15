@@ -66,7 +66,7 @@ class _CalendarState extends State<Calendar> {
             Text(obj.start + " - " + obj.end),
             Padding(
               padding: EdgeInsets.only(left: 130),
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: () async {
                   resereTerm(obj);
                   Navigator.push(
@@ -82,7 +82,7 @@ class _CalendarState extends State<Calendar> {
                             )),
                   );
                 },
-                color: Color.fromARGB(255, 89, 54, 244),
+                //color: Color.fromARGB(255, 89, 54, 244),
                 child: Center(
                   child: Text(
                     'Zakažite termin',

@@ -42,7 +42,7 @@ namespace AppointIT.WinUI.ServiceForms
                 Category request = new Category()
                 {
                     Name = txtName.Text,
-                    //Photo = ImageHelper.ConvertFromImageToByte(pbxImage.Image)
+                    Photo = ImageHelper.ConvertFromImageToByte(pbxImage.Image)
                 };
                 await _categoryService.Insert<Category>(request);
                 MessageBox.Show(Resource.SuccessAdd);
