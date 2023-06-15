@@ -43,10 +43,23 @@ class _SalonState extends State<Salon> {
   double initRating = 0;
 
   Future loadRating() async {
-    var ocjena = await APIService.Get('SalonService', null);
+    var ocjena = await APIService.GetRatings('SalonRating',
+        {'salonId': widget.salonId, 'customerId': await fetchCustomer()});
+    setState(() {
+      if (ocjena != null) {
+        ratings = ocjena!;
+      }
+      if (ratings.isNotEmpty) {
+        initRating = ratings.first.rating!;
+      }
+    });
   }
 
   @override
+  void initState() {
+    loadRating();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

@@ -11,7 +11,7 @@ namespace AppointIT.Model.Models
     {
         public int SalonRatingId { get; set; }
         public double Rating { get; set; }
-        public DateTime RatingDate { get; set; }
+        public DateTime RatingDate { get; set; } = DateTime.Now;
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; } = null!;
         public int SalonId { get; set; }

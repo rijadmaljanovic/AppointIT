@@ -9,7 +9,6 @@ namespace AppointIT.Model.Requests
 {
     public class SalonRatingInsertRequest
     {
-        public int SalonRatingId { get; set; }
         public double Rating { get; set; }
         public DateTime RatingDate { get; set; } = DateTime.Now;
         public int CustomerId { get; set; }
