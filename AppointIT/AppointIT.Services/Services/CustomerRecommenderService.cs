@@ -45,7 +45,7 @@ namespace AppointIT.Services
 
             foreach (var salon in salonIds)
             {
-                var testInput = new SalonRatingEntry { SalonId = (uint)salonId, CoRatedSalonId = (uint)salon };
+                var testInput = new SalonRatingEntry { SalonId = salonId, CoRatedSalonId = salon };
 
                 var prediction = predictionEngine.Predict(testInput);
                 prediction.SalonId = salon;
@@ -65,7 +65,7 @@ namespace AppointIT.Services
         {
             DataViewSchema modelSchema;
 
-            var modelPath = Path.Combine(Environment.CurrentDirectory, "Database", "SalonRecommenderModel.zip");
+            var modelPath = Path.Combine(Environment.CurrentDirectory, "SalonRecommenderModel.zip");
 
             ITransformer trainedModel = mlContext.Model.Load(modelPath, out modelSchema);
 
@@ -95,8 +95,8 @@ namespace AppointIT.Services
                             {
                                 data.Add(new SalonRatingEntry
                                 {
-                                    SalonId = (uint)usId,
-                                    CoRatedSalonId = (uint)rs.SalonId
+                                    SalonId = usId,
+                                    CoRatedSalonId = rs.SalonId
                                 });
                             });
                         });
@@ -138,7 +138,7 @@ namespace AppointIT.Services
 
         void SaveModel(MLContext mlContext, DataViewSchema trainingDataViewSchema, ITransformer model)
         {
-            var modelPath = Path.Combine(Environment.CurrentDirectory, "Database", "SalonRecommenderModel.zip");
+            var modelPath = Path.Combine(Environment.CurrentDirectory, "SalonRecommenderModel.zip");
 
             mlContext.Model.Save(model, trainingDataViewSchema, modelPath);
         }
@@ -221,18 +221,16 @@ namespace AppointIT.Services
 
     public class SalonRatingEntry
     {
-        [KeyType(count: 10)]
-        public uint SalonId { get; set; }
+        public int SalonId { get; set; }
 
-        [KeyType(count: 10)]
-        public uint CoRatedSalonId { get; set; }
+        public int CoRatedSalonId { get; set; }
 
         public float Rating { get; set; }
     }
 
     public class SalonRatingPrediction
     {
-        public int SalonId;
-        public float Score;
+        public int SalonId { get; set; }
+        public float Score { get; set; }
     }
 }
