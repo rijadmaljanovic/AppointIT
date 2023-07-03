@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Configuration;
 using AppointIT.Services.Services;
+using AppointIT.Model.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,6 +119,10 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<MyContext>();
     new SetupService().Init(dbContext);
     new SetupService().InsertData(dbContext);
+
+    var services = scope.ServiceProvider;
+    var recommendationService = services.GetRequiredService<ICustomerRecommenderService>();
+    await recommendationService.CreateModel();
 }
 
 app.Run();

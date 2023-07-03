@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using AppointIT.Services.Database;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
+using Microsoft.ML.Data;
+using Microsoft.ML.Trainers;
+using Microsoft.VisualStudio.Services.Common;
 
 namespace AppointIT.Services
 {
@@ -13,7 +14,6 @@ namespace AppointIT.Services
     {
         private readonly MyContext _context;
         private readonly IMapper _mapper;
-        Dictionary<int, List<Database.SalonRating>> salons = new Dictionary<int, List<Database.SalonRating>>();
 
         public CustomerRecommenderService(MyContext context, IMapper mapper)
         {
@@ -21,78 +21,126 @@ namespace AppointIT.Services
             _mapper = mapper;
         }
 
-        private List<Database.Salon> LoadSimilar(int salonId)
+        public async Task<List<Model.Models.Salon>> Recommend(int salonId)
         {
-            LoadOtherSalons(salonId);
-            List<Database.SalonRating> ratingOfCurrent = _context.SalonRatings.Where(x => x.SalonId == salonId).OrderBy(x => x.CustomerId).ToList();
+            var salon = _context.Salons.FirstOrDefault(s => s.Id == salonId) ?? throw new Exception("Salon doesn't exist");
 
-            List<Database.SalonRating> ratings1 = new List<Database.SalonRating>();
-            List<Database.SalonRating> ratings2 = new List<Database.SalonRating>();
-            List<Database.Salon> recommendedServices= new List<Database.Salon>();
+            var mlContext = new MLContext();
 
-            foreach (var salon in salons)
+            var model = LoadModel(mlContext);
+
+            var salonIds = _context.Salons
+                            .Select(x => x.Id)
+                            .ToList();
+
+            var recommendedsalonIds = GetSalonPredictions(mlContext, model, salonId, salonIds);
+
+            return _mapper.Map<List<Model.Models.Salon>>(recommendedsalonIds);
+        }
+
+        List<int> GetSalonPredictions(MLContext mlContext, ITransformer model, int salonId, List<int> salonIds)
+        {
+            var predictionEngine = mlContext.Model.CreatePredictionEngine<SalonRatingEntry, SalonRatingPrediction>(model);
+            var predictionList = new List<SalonRatingPrediction>();
+
+            foreach (var salon in salonIds)
             {
-                foreach (Database.SalonRating rating in ratingOfCurrent)
+                var testInput = new SalonRatingEntry { SalonId = (uint)salonId, CoRatedSalonId = (uint)salon };
+
+                var prediction = predictionEngine.Predict(testInput);
+                prediction.SalonId = salon;
+
+                predictionList.Add(prediction);
+            }
+
+            return predictionList
+                .OrderByDescending(p => p.Score)
+                .Take(5)
+                .Select(p => p.SalonId)
+                .ToList();
+        }
+
+
+        ITransformer LoadModel(MLContext mlContext)
+        {
+            DataViewSchema modelSchema;
+
+            var modelPath = Path.Combine(Environment.CurrentDirectory, "Database", "SalonRecommenderModel.zip");
+
+            ITransformer trainedModel = mlContext.Model.Load(modelPath, out modelSchema);
+
+            return trainedModel;
+        }
+
+        public async Task CreateModel()
+        {
+            var mlContext = new MLContext();
+
+            var users = _context.Customers.Include(u => u.SalonRatings.Where(usr => usr.Rating >= 2)).ToList();
+            var data = new List<SalonRatingEntry>();
+
+            if(users != null)
+            {
+                users.ForEach(u =>
                 {
-                    if (salon.Value.Where(w => w.CustomerId == rating.CustomerId).Count() > 0)
+                    if (u.SalonRatings.Count > 1)
                     {
-                        ratings1.Add(rating);
-                        ratings2.Add(salon.Value.Where(w => w.CustomerId == rating.CustomerId).First());
+                        var userServicesIds = u.SalonRatings.Select(usr => usr.SalonId).ToList();
+
+                        userServicesIds.ForEach(usId =>
+                        {
+                            var relatedServices = u.SalonRatings.Where(usr => usr.SalonId != usId).ToList();
+
+                            relatedServices.ForEach(rs =>
+                            {
+                                data.Add(new SalonRatingEntry
+                                {
+                                    SalonId = (uint)usId,
+                                    CoRatedSalonId = (uint)rs.SalonId
+                                });
+                            });
+                        });
                     }
-                }
-                double similarity = GetSimilarity(ratings1, ratings2);
-                if (similarity > 0.5)
-                {
-                    recommendedServices.Add(_context.Salons.AsQueryable().Where(w => w.Id == salon.Key).FirstOrDefault());
-                }
-                ratings1.Clear();
-                ratings2.Clear();
+                });
             }
-            return recommendedServices;
+
+            var trainingData = mlContext.Data.LoadFromEnumerable(data);
+
+            ITransformer model = BuildAndTrainModel(mlContext, trainingData);
+
+            SaveModel(mlContext, trainingData.Schema, model);
         }
 
-        private double GetSimilarity(List<Database.SalonRating> ratings1, List<Database.SalonRating> ratings2)
+        ITransformer BuildAndTrainModel(MLContext mlContext, IDataView trainingData)
         {
-            if (ratings1.Count != ratings2.Count)
+            var options = new MatrixFactorizationTrainer.Options
             {
-                return 0;
-            }
-            double x = 0, y1 = 0, y2 = 0;
+                MatrixColumnIndexColumnName = "SalonIdEncoded",
+                MatrixRowIndexColumnName = "CoRatedSalonIdEncoded",
+                LabelColumnName = "Rating",
+                NumberOfIterations = 20,
+                ApproximationRank = 100
+            };
 
-            for (int i = 0; i < ratings1.Count; i++)
-            {
-                x += ratings1[i].Rating * ratings2[i].Rating;
-                y1 += ratings1[i].Rating * ratings1[i].Rating;
-                y2 += ratings2[i].Rating * ratings2[i].Rating;
-            }
-            y1 = Math.Sqrt(y1);
-            y2 = Math.Sqrt(y2);
+            var pipeline = mlContext.Transforms.Conversion.MapValueToKey(
+                    inputColumnName: "SalonId",
+                    outputColumnName: "SalonIdEncoded")
+                .Append(mlContext.Transforms.Conversion.MapValueToKey(
+                    inputColumnName: "CoRatedSalonId",
+                    outputColumnName: "CoRatedSalonIdEncoded")
 
-            double y = y1 * y2;
-            if (y == 0)
-                return 0;
-            return x / y;
+                .Append(mlContext.Recommendation().Trainers.MatrixFactorization(options)));
+
+            var model = pipeline.Fit(trainingData);
+
+            return model;
         }
 
-        private void LoadOtherSalons(int salonId)
+        void SaveModel(MLContext mlContext, DataViewSchema trainingDataViewSchema, ITransformer model)
         {
-            List<Database.Salon> list = _context.Salons.Where(w => w.Id != salonId).ToList();
-            List<Database.SalonRating> ratings = new List<Database.SalonRating>();
-            foreach (var item in list)
-            {
-                ratings = _context.SalonRatings.Where(w => w.SalonId == item.Id).OrderBy(w => w.SalonId).ToList();
-                if (ratings.Count > 0)
-                {
-                    salons.Add(item.Id, ratings);
-                }
-            }
+            var modelPath = Path.Combine(Environment.CurrentDirectory, "Database", "SalonRecommenderModel.zip");
 
-        }
-
-        public List<Model.Models.Salon> Recommend(int salonId)
-        {
-            var tmp = LoadSimilar(salonId);
-            return _mapper.Map<List<Model.Models.Salon>>(tmp);
+            mlContext.Model.Save(model, trainingDataViewSchema, modelPath);
         }
 
         public List<SalonCustom> SearchFilter(TermCustomSearchObject search = null)
@@ -169,5 +217,22 @@ namespace AppointIT.Services
             public DateTime TermDate { get; set; }
             public int TermId { get; set; }
         }
+    }
+
+    public class SalonRatingEntry
+    {
+        [KeyType(count: 10)]
+        public uint SalonId { get; set; }
+
+        [KeyType(count: 10)]
+        public uint CoRatedSalonId { get; set; }
+
+        public float Rating { get; set; }
+    }
+
+    public class SalonRatingPrediction
+    {
+        public int SalonId;
+        public float Score;
     }
 }

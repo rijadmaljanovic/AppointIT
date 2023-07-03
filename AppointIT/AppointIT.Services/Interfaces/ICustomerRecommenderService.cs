@@ -9,9 +9,9 @@ namespace AppointIT.Services.Interfaces
 {
     public interface ICustomerRecommenderService
     {
-        List<AppointIT.Model.Models.Salon> Recommend(int salonId);
+        Task<List<AppointIT.Model.Models.Salon>> Recommend(int salonId);
         List<SalonCustom> SearchFilter(TermCustomSearchObject search = null);
-
+        Task CreateModel();
 
     }
 }

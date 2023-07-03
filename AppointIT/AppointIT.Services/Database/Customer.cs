@@ -13,5 +13,7 @@ namespace AppointIT.Services.Database
         public int Id { get; set; }
         public BaseUser BaseUser { get; set; }
         public byte[] Photo { get; set; }
+        public virtual ICollection<SalonRating> SalonRatings { get; set; }
+
     }
 }
