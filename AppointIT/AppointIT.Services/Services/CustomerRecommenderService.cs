@@ -23,6 +23,7 @@ namespace AppointIT.Services
 
         public List<Model.Models.Salon> Recommend(int salonId)
         {
+            //if the customer did not have any ratings for any salon then best rated salons will be returned
             if(salonId == 0)
             {
                 var bestRatedSalons = _context.Salons
@@ -34,7 +35,6 @@ namespace AppointIT.Services
             }
 
             var salon = _context.Salons.FirstOrDefault(s => s.Id == salonId);
-
             if(salon == null) throw new Exception("Salon does not exist.");
 
             var mlContext = new MLContext();
@@ -61,12 +61,15 @@ namespace AppointIT.Services
 
             foreach (var salon in salonIds)
             {
-                var testInput = new SalonRatingEntry { SalonId = salonId, CoRatedSalonId = salon };
+                if (salon != salonId)
+                {
+                    var testInput = new SalonRatingEntry { SalonId = salonId, CoRatedSalonId = salon };
 
-                var prediction = predictionEngine.Predict(testInput);
-                prediction.SalonId = salon;
+                    var prediction = predictionEngine.Predict(testInput);
+                    prediction.SalonId = salon;
 
-                predictionList.Add(prediction);
+                    predictionList.Add(prediction);
+                }
             }
 
             return predictionList
