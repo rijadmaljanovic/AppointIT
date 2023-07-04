@@ -76,7 +76,6 @@ namespace AppointIT.Services
                 .ToList();
         }
 
-
         ITransformer LoadModel(MLContext mlContext)
         {
             DataViewSchema modelSchema;
