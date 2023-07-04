@@ -42,8 +42,9 @@ namespace AppointIT.Services
             var model = LoadModel(mlContext);
 
             var salonIds = _context.Salons
-                            .Select(x => x.Id)
-                            .ToList();
+                .Where(x=> x.Id != salonId)
+                .Select(x => x.Id)
+                .ToList();
 
             var recommendedsalonIds = GetSalonPredictions(mlContext, model, salonId, salonIds);
 
@@ -61,15 +62,12 @@ namespace AppointIT.Services
 
             foreach (var salon in salonIds)
             {
-                if (salon != salonId)
-                {
-                    var testInput = new SalonRatingEntry { SalonId = salonId, CoRatedSalonId = salon };
+                var testInput = new SalonRatingEntry { SalonId = salonId, CoRatedSalonId = salon };
 
-                    var prediction = predictionEngine.Predict(testInput);
-                    prediction.SalonId = salon;
+                var prediction = predictionEngine.Predict(testInput);
+                prediction.SalonId = salon;
 
-                    predictionList.Add(prediction);
-                }
+                predictionList.Add(prediction);
             }
 
             return predictionList
