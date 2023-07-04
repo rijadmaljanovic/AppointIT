@@ -50,11 +50,16 @@ namespace AppointIT.Services.Services
             var list = query.ToList();
             return _mapper.Map<List<Model.Models.SalonRating>>(list);
         }
-        public int GetLastSalon()
-        {
-            var lastService = _context.SalonRatings.OrderByDescending(sr => sr.SalonRatingId).FirstOrDefault();
 
-            return lastService?.SalonId ?? 0;
+        public int GetLastSalon(int id)
+        {
+            var lastSalonId = _context.SalonRatings
+                .Where(r => r.CustomerId == id)
+                .OrderByDescending(r => r.RatingDate)
+                .Select(r => r.SalonId)
+                .FirstOrDefault();
+
+            return lastSalonId;
         }
     }
 }

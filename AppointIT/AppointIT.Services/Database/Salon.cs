@@ -18,6 +18,7 @@ namespace AppointIT.Services.Database
         public double Lat { get; set; }
         public double Lng { get; set; }
         public virtual ICollection<SalonServices> SalonServices { get; set; }
+        public virtual ICollection<SalonRating> SalonRatings { get; set; }
 
     }
 }

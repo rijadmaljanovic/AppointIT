@@ -22,9 +22,9 @@ namespace AppointIT.Controllers
             this.service = _service;
         }
         [HttpGet("/GetLastRatedSalon")]
-        public virtual int GetLastSalon()
+        public virtual int GetLastSalon(int id)
         {
-            return service.GetLastSalon();
+            return service.GetLastSalon(id);
         }
     }
 }

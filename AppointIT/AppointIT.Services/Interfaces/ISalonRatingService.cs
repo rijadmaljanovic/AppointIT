@@ -10,6 +10,6 @@ namespace AppointIT.Services.Interfaces
 {
     public interface ISalonRatingService : ICrudService<SalonRating, SalonRatingSearchObject, SalonRatingInsertRequest, SalonRatingInsertRequest>
     {
-        int GetLastSalon();
+        int GetLastSalon(int id);
     }
 }

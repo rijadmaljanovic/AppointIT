@@ -9,8 +9,15 @@ class Recommend extends StatefulWidget {
   _RecommendState createState() => _RecommendState();
 }
 
+Future<int?> fetchCustomer() async {
+  Map<String, String> queryParams = {'Email': APIService.username};
+  var user = await APIService.Get('Customer', queryParams);
+  return user!.map((e) => MdlBaseUser.fromJson(e)).first.id;
+}
+
 Future<int?> fetchSalon() async {
-  var service = await APIService.GetLast('GetLastRatedSalon', null);
+  var customer = await fetchCustomer();
+  var service = await APIService.GetLast('GetLastRatedSalon', customer!);
   if (service == null || service == 0) {
     return 0;
   }
@@ -19,8 +26,8 @@ Future<int?> fetchSalon() async {
 
 Future<List<MdlRecommend>> fetchRecommend() async {
   var salon = await fetchSalon();
-  if (salon != 0) {
-    var result = await APIService.GetListById('CustomerRecommender', salon!);
+  if (salon != null) {
+    var result = await APIService.GetListById('CustomerRecommender', salon);
     var recommend = result!.map((e) => MdlRecommend.fromJson(e)).toList();
     return recommend;
   }

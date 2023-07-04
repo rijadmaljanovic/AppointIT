@@ -21,9 +21,21 @@ namespace AppointIT.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Model.Models.Salon>> Recommend(int salonId)
+        public List<Model.Models.Salon> Recommend(int salonId)
         {
-            var salon = _context.Salons.FirstOrDefault(s => s.Id == salonId) ?? throw new Exception("Salon doesn't exist");
+            if(salonId == 0)
+            {
+                var bestRatedSalons = _context.Salons
+                   .OrderByDescending(s => s.SalonRatings.Average(r => r.Rating))
+                   .Take(5)
+                   .ToList();
+
+                return _mapper.Map<List<Model.Models.Salon>>(bestRatedSalons);
+            }
+
+            var salon = _context.Salons.FirstOrDefault(s => s.Id == salonId);
+
+            if(salon == null) throw new Exception("Salon does not exist.");
 
             var mlContext = new MLContext();
 
@@ -35,7 +47,11 @@ namespace AppointIT.Services
 
             var recommendedsalonIds = GetSalonPredictions(mlContext, model, salonId, salonIds);
 
-            return _mapper.Map<List<Model.Models.Salon>>(recommendedsalonIds);
+            var recommendedSalons = _context.Salons
+                .Where(s => recommendedsalonIds.Contains(s.Id))
+                .ToList();
+
+            return _mapper.Map<List<Model.Models.Salon>>(recommendedSalons);
         }
 
         List<int> GetSalonPredictions(MLContext mlContext, ITransformer model, int salonId, List<int> salonIds)
@@ -55,7 +71,7 @@ namespace AppointIT.Services
 
             return predictionList
                 .OrderByDescending(p => p.Score)
-                .Take(5)
+                .Take(3)
                 .Select(p => p.SalonId)
                 .ToList();
         }

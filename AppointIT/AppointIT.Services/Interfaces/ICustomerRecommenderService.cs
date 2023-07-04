@@ -9,7 +9,7 @@ namespace AppointIT.Services.Interfaces
 {
     public interface ICustomerRecommenderService
     {
-        Task<List<AppointIT.Model.Models.Salon>> Recommend(int salonId);
+        List<AppointIT.Model.Models.Salon> Recommend(int salonId);
         List<SalonCustom> SearchFilter(TermCustomSearchObject search = null);
         Task CreateModel();
 
