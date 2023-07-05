@@ -62,7 +62,7 @@ namespace AppointIT.Services
 
             foreach (var salon in salonIds)
             {
-                var testInput = new SalonRatingEntry { SalonId = salonId, CoRatedSalonId = salon };
+                var testInput = new SalonRatingEntry { SalonId = (uint)salonId, CoRatedSalonId = (uint)salon };
 
                 var prediction = predictionEngine.Predict(testInput);
                 prediction.SalonId = salon;
@@ -91,8 +91,7 @@ namespace AppointIT.Services
         public async Task CreateModel()
         {
             var mlContext = new MLContext();
-
-            var users = _context.Customers.Include(u => u.SalonRatings.Where(usr => usr.Rating >= 2)).ToList();
+            var users = _context.Customers.Include(u => u.SalonRatings.Where(usr => usr.Rating >= 3)).ToList();
             var data = new List<SalonRatingEntry>();
 
             if(users != null)
@@ -101,18 +100,18 @@ namespace AppointIT.Services
                 {
                     if (u.SalonRatings.Count > 1)
                     {
-                        var userServicesIds = u.SalonRatings.Select(usr => usr.SalonId).ToList();
+                        var userSalonIds = u.SalonRatings.Select(usr => usr.SalonId).ToList();
 
-                        userServicesIds.ForEach(usId =>
+                        userSalonIds.ForEach(usId =>
                         {
-                            var relatedServices = u.SalonRatings.Where(usr => usr.SalonId != usId).ToList();
+                            var relatedSalons = u.SalonRatings.Where(usr => usr.SalonId != usId).ToList();
 
-                            relatedServices.ForEach(rs =>
+                            relatedSalons.ForEach(rs =>
                             {
                                 data.Add(new SalonRatingEntry
                                 {
-                                    SalonId = usId,
-                                    CoRatedSalonId = rs.SalonId
+                                    SalonId = (uint)usId,
+                                    CoRatedSalonId = (uint)rs.SalonId
                                 });
                             });
                         });
@@ -131,21 +130,19 @@ namespace AppointIT.Services
         {
             var options = new MatrixFactorizationTrainer.Options
             {
-                MatrixColumnIndexColumnName = "SalonIdEncoded",
-                MatrixRowIndexColumnName = "CoRatedSalonIdEncoded",
+                MatrixColumnIndexColumnName = nameof(SalonRatingEntry.SalonId),
+                MatrixRowIndexColumnName = nameof(SalonRatingEntry.CoRatedSalonId),
                 LabelColumnName = "Rating",
-                NumberOfIterations = 20,
-                ApproximationRank = 100
+
+                LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass,
+                Alpha = 0.01,
+                Lambda = 0.025,
+
+                NumberOfIterations = 100,
+                C = 0.00001
             };
 
-            var pipeline = mlContext.Transforms.Conversion.MapValueToKey(
-                    inputColumnName: "SalonId",
-                    outputColumnName: "SalonIdEncoded")
-                .Append(mlContext.Transforms.Conversion.MapValueToKey(
-                    inputColumnName: "CoRatedSalonId",
-                    outputColumnName: "CoRatedSalonIdEncoded")
-
-                .Append(mlContext.Recommendation().Trainers.MatrixFactorization(options)));
+            var pipeline = mlContext.Recommendation().Trainers.MatrixFactorization(options);
 
             var model = pipeline.Fit(trainingData);
 
@@ -237,10 +234,10 @@ namespace AppointIT.Services
 
     public class SalonRatingEntry
     {
-        public int SalonId { get; set; }
-
-        public int CoRatedSalonId { get; set; }
-
+        [KeyType(count: 10)]
+        public uint SalonId { get; set; }
+        [KeyType(count: 10)]
+        public uint CoRatedSalonId { get; set; }
         public float Rating { get; set; }
     }
 
