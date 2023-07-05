@@ -78,9 +78,6 @@ builder.Services.AddScoped<ICustomerRecommenderService, CustomerRecommenderServi
 builder.Services.AddScoped<ISalonRatingService, SalonRatingService>();
 
 
-builder.Services.AddTransient<IMailService, SendGridMailService>();
-
-
 builder.Services.AddAuthentication("BasicAuthentication")
     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 

@@ -19,13 +19,11 @@ namespace AppointIT.Services
     {
         private readonly MyContext _context;
         protected readonly IMapper _mapper;
-        protected readonly IMailService _mailService;
 
-        public BaseUserService(MyContext _context, IMapper _mapper, IMailService _mailService)
+        public BaseUserService(MyContext _context, IMapper _mapper)
         {
             this._context = _context;
             this._mapper = _mapper;
-            this._mailService = _mailService;
         }
         public Model.Models.BaseUser GetById(int id)
         {
@@ -33,7 +31,7 @@ namespace AppointIT.Services
 
             return _mapper.Map<Model.Models.BaseUser>(entity);
         }
-        public Model.Models.BaseUser Insert(BaseUserInsertRequest request/*, int userRole = ((int)Enumerations.UserRole.Customer)*/)
+        public Model.Models.BaseUser Insert(BaseUserInsertRequest request)
         {
             var entity = _mapper.Map<Database.BaseUser>(request);
             _context.Add(entity);
@@ -57,18 +55,6 @@ namespace AppointIT.Services
 
             _context.SaveChanges();
 
-            if (request.RoleId == (int)UserRole.Employee)
-            {
-                string message = "<h1>AppointIT account</h1>" +
-                                "<h3>Pristupni podaci za account na platformi AppointIT su: </h3>" +
-                                "<h4>Email: <strong>" + request.Email + "</strong><br/>  Lozinka: <strong> " + request.Password + "  </strong></h4>";
-                _mailService.SendEmailAsync(request.Email, "Novi account", message);
-                //_mailService.SendEmailAsync(request.Email, "New Account", "<h1>Hey!," +
-                //    " new Login to your account noticed.</h1>"
-                //    + "<h2>Your password is : " + "</h2>" + "<strong>" +
-                //    request.Password + "</strong>" +
-                //    "<p> New login to your account at " + DateTime.Now + "</p>");
-            }
             return _mapper.Map<Model.Models.BaseUser>(entity);
         }
         public Model.Models.BaseUser Update(int Id, BaseUserInsertRequest request)
@@ -141,10 +127,6 @@ namespace AppointIT.Services
             entity.CreatedAt = DateTime.Now;
             entity.PasswordSalt = GenerateSalt();
             entity.PasswordHash = GenerateHash(entity.PasswordSalt, request.Password);
-
-            _mailService.SendEmailAsync(request.Email, "New Account", "<h1>Hey!, new Login to your account noticed.</h1>" +
-                "<h2>Your password is : " + "</h2>" + "<strong>" + request.Password + "</strong>" +
-                "<p> New login to your account at " + DateTime.Now + "</p>");
 
             _context.SaveChanges();
 
