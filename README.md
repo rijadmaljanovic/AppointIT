@@ -23,6 +23,15 @@ The project consists of three parts: Web API - backend created using ASP .Net Co
 - flutter run <br/>
 *Important disclaimer - Make sure you have an emulator running before using the command
 
+<br/>
+<br/>
+Notice: 
+If you get a java related error when starting the mobile app, try to delete this line from gradle.properties and try again:<br/>
+'org.gradle.java.home=C:\\Program Files\\Java\\jdk-15.0.2'
+
+<br/>
+<br/>
+
 ## Login credentials:
 **Desktop**<br/>
 ```
