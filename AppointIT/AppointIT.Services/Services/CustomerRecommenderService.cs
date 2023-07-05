@@ -60,21 +60,21 @@ namespace AppointIT.Services
             var predictionEngine = mlContext.Model.CreatePredictionEngine<SalonRatingEntry, SalonRatingPrediction>(model);
             var predictionList = new List<SalonRatingPrediction>();
 
-            foreach (var salon in salonIds)
+            var predictionResult = new List<Tuple<int, float>>();
+
+            salonIds.ForEach(id =>
             {
-                var testInput = new SalonRatingEntry { SalonId = (uint)salonId, CoRatedSalonId = (uint)salon };
+                var prediction = predictionEngine.Predict(new SalonRatingEntry()
+                {
+                    SalonId = (uint)salonId,
+                    CoRatedSalonId = (uint)id
+                });
 
-                var prediction = predictionEngine.Predict(testInput);
-                prediction.SalonId = salon;
+                predictionResult.Add(new Tuple<int, float>(id, prediction.Score));
+            });
 
-                predictionList.Add(prediction);
-            }
-
-            return predictionList
-                .OrderByDescending(p => p.Score)
-                .Take(3)
-                .Select(p => p.SalonId)
-                .ToList();
+            return predictionResult.OrderByDescending(pr => pr.Item2)
+               .Select(pr => pr.Item1).Take(3).ToList();
         }
 
         ITransformer LoadModel(MLContext mlContext)
@@ -132,7 +132,7 @@ namespace AppointIT.Services
             {
                 MatrixColumnIndexColumnName = nameof(SalonRatingEntry.SalonId),
                 MatrixRowIndexColumnName = nameof(SalonRatingEntry.CoRatedSalonId),
-                LabelColumnName = "Rating",
+                LabelColumnName = "Label",
 
                 LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass,
                 Alpha = 0.01,
@@ -141,7 +141,7 @@ namespace AppointIT.Services
                 NumberOfIterations = 100,
                 C = 0.00001
             };
-
+            
             var pipeline = mlContext.Recommendation().Trainers.MatrixFactorization(options);
 
             var model = pipeline.Fit(trainingData);
@@ -234,16 +234,15 @@ namespace AppointIT.Services
 
     public class SalonRatingEntry
     {
-        [KeyType(count: 10)]
+        [KeyType(count: 100)]
         public uint SalonId { get; set; }
-        [KeyType(count: 10)]
+        [KeyType(count: 100)]
         public uint CoRatedSalonId { get; set; }
-        public float Rating { get; set; }
+        public float Label { get; set; }
     }
 
     public class SalonRatingPrediction
     {
-        public int SalonId { get; set; }
         public float Score { get; set; }
     }
 }
