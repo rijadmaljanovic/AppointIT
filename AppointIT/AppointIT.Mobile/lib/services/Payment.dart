@@ -41,7 +41,7 @@ class StripeService {
       Map<String, dynamic> body = {
         "amount": amount,
         "currency": currency,
-        "description": 'Donacija azilu',
+        "description": 'Placanje termina',
         "source": "tok_mastercard"
       };
       var response =

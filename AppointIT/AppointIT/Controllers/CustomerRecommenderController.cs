@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AppointIT.Services.Interfaces;
 using AppointIT.Model.Models;
 using static AppointIT.Services.CustomerRecommenderService;
+using static AppointIT.Services.SalonService;
 
 namespace AppointIT.Controllers
 {
@@ -15,10 +16,12 @@ namespace AppointIT.Controllers
     [Authorize]
     public class CustomerRecommenderController : ControllerBase
     {
-        private readonly ICustomerRecommenderService service;
-        public CustomerRecommenderController(ICustomerRecommenderService service)
+        private readonly ICustomerRecommenderService _recommenderService;
+        private readonly ISalonService _salonService;
+        public CustomerRecommenderController(ICustomerRecommenderService recommenderService, ISalonService salonService)
         {
-            this.service = service;
+            _recommenderService = recommenderService;
+            _salonService = salonService;
         }
 
         [HttpGet("{SalonId}")]
@@ -26,7 +29,7 @@ namespace AppointIT.Controllers
         {
             try
             {
-                return Ok(service.Recommend(SalonId));
+                return Ok(_recommenderService.Recommend(SalonId));
             }
             catch (Exception ex)
             {
@@ -37,7 +40,7 @@ namespace AppointIT.Controllers
         [HttpGet]
         public virtual IEnumerable<SalonCustom> Get([FromQuery] TermCustomSearchObject search)
         {
-            return service.SearchFilter(search);
+            return _salonService.SearchFilter(search);
         }
     }
 

@@ -84,13 +84,15 @@ class _RezervacijaState extends State<Rezervacija> {
             : 'Transakcija uspješna'),
       );
     }
-    var customer = await fetchCustomer();
-    Map<String, dynamic> queryParams = {
-      'customerId': int.parse(customer.toString()),
-      'couponId': int.parse(kuponId.toString()),
-      'isUsed': true
-    };
-    var result = await APIService.Post('CustomerCoupon', queryParams);
+    if (kuponId != null) {
+      var customer = await fetchCustomer();
+      Map<String, dynamic> queryParams = {
+        'customerId': int.parse(customer.toString()),
+        'couponId': int.parse(kuponId.toString()),
+        'isUsed': true
+      };
+      var result = await APIService.Post('CustomerCoupon', queryParams);
+    }
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
@@ -173,8 +175,10 @@ class _RezervacijaState extends State<Rezervacija> {
         controller: controllerKupon,
         onChanged: (txt) async {
           resultKupon = await APIService.GetById('Coupon', int.parse(txt));
-          kuponCijena = MdlCoupon.fromJson(resultKupon).value;
-          kuponId = MdlCoupon.fromJson(resultKupon).id;
+          if (resultKupon != null) {
+            kuponCijena = MdlCoupon.fromJson(resultKupon).value;
+            kuponId = MdlCoupon.fromJson(resultKupon).id;
+          }
         },
       ),
       actions: [
